@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+
+  <!-- Card Puntuaciones -->
+  <div class="card-header">
+    <h1>🏆 PUNTUACIONES 🏆</h1>
+    <div class="fecha">
+      <label>FECHA:</label>
+      <input type="date" [(ngModel)]="fecha" />
+    </div>
+  </div>
+
+  <!-- Card Agregar Escuadra -->
+  <div class="card-body">
+    <h3>Agregar Escuadra</h3>
+    <div class="input-row">
+      <input
+        type="text"
+        placeholder="Nombre de la escuadra (ej: RRMS, ANK, ATL)"
+        [(ngModel)]="nuevaEscuadra"
+      />
+      <button class="btn-agregar" (click)="agregar()">+ Agregar</button>
+      <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
+    </div>
+  </div>
+
+</div>

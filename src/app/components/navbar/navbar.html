@@ -1,0 +1,48 @@
+<nav class="navbar">
+  <div class="nav-logo"></div>
+
+  <div class="nav-tabs">
+    <button
+      *ngFor="let tab of tabs"
+      class="nav-tab"
+      [class.active]="activeTab === tab.label"
+      (click)="setActive(tab)">
+      {{ tab.label }}
+    </button>
+  </div>
+
+  <!-- BUSCADOR -->
+  <div class="search-wrapper" [class.open]="searchOpen">
+    <input
+      *ngIf="searchOpen"
+      type="text"
+      class="search-input"
+      placeholder="Buscar..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()"
+      (keydown.escape)="closeSearch()"
+      #searchInput
+    />
+    <button class="search-btn" (click)="toggleSearch()">🔍</button>
+
+    <!-- Resultados -->
+    <div class="search-results" *ngIf="searchOpen && results.length > 0">
+      <div
+        class="search-item"
+        *ngFor="let r of results"
+        (click)="goTo(r)">
+        <span class="result-type">{{ r.type }}</span>
+        <span class="result-title">{{ r.title }}</span>
+        <span class="result-desc">{{ r.description }}</span>
+      </div>
+    </div>
+
+    <!-- Sin resultados -->
+    <div class="search-results" *ngIf="searchOpen && searchQuery.length >= 2 && results.length === 0">
+      <div class="search-empty">Sin resultados para "{{ searchQuery }}"</div>
+    </div>
+  </div>
+
+  <button class="nav-more">+ −</button>
+  <button class="nav-login" routerLink="/login">Login</button>
+</nav>
