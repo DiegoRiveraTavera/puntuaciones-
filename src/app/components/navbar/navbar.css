@@ -1,18 +1,18 @@
 .navbar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 999px;
-  padding: 6px 8px;
+  padding: 10px 14px;        /* ← más padding */
   width: 100%;
   box-sizing: border-box;
 }
 
 .nav-logo {
-  width: 32px;
-  height: 32px;
+  width: 42px;               /* ← más grande */
+  height: 42px;
   border-radius: 50%;
   border: 1px solid #ccc;
   flex-shrink: 0;
@@ -21,14 +21,14 @@
 .nav-tabs {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   flex: 1;
 }
 
 .nav-tab {
-  padding: 6px 14px;
+  padding: 10px 20px;        /* ← más padding */
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 16px;           /* ← más grande */
   font-weight: 400;
   color: #555;
   cursor: pointer;
@@ -37,12 +37,12 @@
   transition: background 0.15s, color 0.15s;
 }
 
-.nav-tab:hover {        /* ← separado, sin & */
+.nav-tab:hover {
   background: #f5f5f5;
   color: #111;
 }
 
-.nav-tab.active {       /* ← separado, sin & */
+.nav-tab.active {
   background: #F5A623;
   color: #7A4E00;
   border: 1.5px solid #E09010;
@@ -50,23 +50,23 @@
 }
 
 .nav-more {
-  padding: 5px 12px;
+  padding: 9px 18px;         /* ← más grande */
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 16px;           /* ← más grande */
   color: #555;
   cursor: pointer;
   border: 1px solid #ccc;
   background: transparent;
 }
 
-.nav-more:hover {       /* ← separado */
+.nav-more:hover {
   background: #f5f5f5;
 }
 
 .nav-login {
-  padding: 6px 18px;
+  padding: 10px 26px;        /* ← más grande */
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 16px;           /* ← más grande */
   font-weight: 500;
   cursor: pointer;
   border: 1px solid #aaa;
@@ -75,7 +75,7 @@
   flex-shrink: 0;
 }
 
-.nav-login:hover {      /* ← separado */
+.nav-login:hover {
   background: #f5f5f5;
 }
 
@@ -89,8 +89,8 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  padding: 6px 8px;
+  font-size: 20px;           /* ← más grande */
+  padding: 8px 10px;
   border-radius: 50%;
   transition: background 0.15s;
 }
@@ -100,25 +100,25 @@
 }
 
 .search-input {
-  width: 180px;
+  width: 200px;
   border: 1px solid #ccc;
   border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 14px;
+  padding: 9px 18px;         /* ← más grande */
+  font-size: 15px;           /* ← más grande */
   outline: none;
   transition: width 0.2s;
 }
 
 .search-input:focus {
   border-color: #F5A623;
-  width: 220px;
+  width: 250px;
 }
 
 .search-results {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 280px;
+  width: 300px;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
@@ -130,7 +130,7 @@
 .search-item {
   display: flex;
   flex-direction: column;
-  padding: 10px 14px;
+  padding: 12px 16px;        /* ← más grande */
   cursor: pointer;
   transition: background 0.15s;
   border-bottom: 1px solid #f0f0f0;
@@ -145,7 +145,7 @@
 }
 
 .result-type {
-  font-size: 11px;
+  font-size: 12px;           /* ← más grande */
   color: #F5A623;
   font-weight: 600;
   text-transform: uppercase;
@@ -153,19 +153,19 @@
 }
 
 .result-title {
-  font-size: 14px;
+  font-size: 15px;           /* ← más grande */
   font-weight: 500;
   color: #111;
 }
 
 .result-desc {
-  font-size: 12px;
+  font-size: 13px;           /* ← más grande */
   color: #888;
 }
 
 .search-empty {
-  padding: 14px;
-  font-size: 13px;
+  padding: 16px;
+  font-size: 14px;           /* ← más grande */
   color: #888;
   text-align: center;
 }

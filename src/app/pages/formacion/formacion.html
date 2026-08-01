@@ -1,2 +1,161 @@
+<app-navbar></app-navbar>
 
-    <app-navbar></app-navbar>
+<div class="container">
+
+  <div class="card-header">
+    <h1>Formación</h1>
+    <p class="subtitulo">Registro de miembros, uniforme, materiales y accesorios por escuadra</p>
+  </div>
+
+  <!-- Selector de escuadra -->
+  <div class="card-body">
+    <h3>Seleccionar escuadra</h3>
+    <select (change)="seleccionar($any($event.target).value)">
+      <option value="">-- Elige una escuadra --</option>
+      <option *ngFor="let e of escuadrasDisponibles" [value]="e">{{ e }}</option>
+    </select>
+  </div>
+
+  <ng-container *ngIf="datosActuales">
+
+    <!-- Tabla de miembros -->
+    <div class="card-body">
+      <div class="seccion-titulo">
+        <h3>Miembros</h3>
+        <span class="badge-pts">{{ getMiembrosConUniforme() }} con uniforme × 10 = {{ getPuntosUniforme() }} pts</span>
+      </div>
+
+      <table class="tabla-formacion">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Uniforme ✓</th>
+            <th>Cursos</th>
+            <th>Pruebas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of datosActuales.miembros; let i = index">
+            <td class="num">{{ i + 1 }}</td>
+            <td><input type="text" [(ngModel)]="m.nombre" placeholder="—" /></td>
+            <td class="centro">
+              <input type="checkbox" [(ngModel)]="m.uniforme" [disabled]="!m.nombre.trim()" />
+            </td>
+            <td><input type="text" [(ngModel)]="m.cursos" placeholder="—" /></td>
+            <td><input type="text" [(ngModel)]="m.pruebas" placeholder="—" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Uniforme del jefe + accesorios -->
+    <div class="card-body">
+      <div class="seccion-titulo">
+        <h3>Accesorios y uniforme del jefe</h3>
+        <span class="badge-pts">{{ getPuntosExtras() }} pts</span>
+      </div>
+
+      <div class="checks-grid">
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.uniformeJefe" />
+          <span>Uniforme del jefe/subjefe (10 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.banderin" />
+          <span>Banderin (5 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.bandera" />
+          <span>Bandera (5 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.escudo" />
+          <span>Escudo (5 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.bolsa" />
+          <span>Bolsa (5 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.botiquin" />
+          <span>Botiquín (5 pts)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="datosActuales.biblia" />
+          <span>Biblia (5 pts)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Materiales y extras -->
+    <div class="fila-inferior">
+
+      <!-- Materiales -->
+      <div class="card-body">
+        <div class="seccion-titulo">
+          <h3>Materiales (× 10 pts c/u)</h3>
+          <span class="badge-pts">{{ getPuntosMateriales() }} pts</span>
+        </div>
+        <div class="mat-row">
+          <label>Técnica</label>
+          <input type="number" min="0" [(ngModel)]="datosActuales.materiales.tecnica" />
+        </div>
+        <div class="mat-row">
+          <label>Quizz</label>
+          <input type="number" min="0" [(ngModel)]="datosActuales.materiales.quizz" />
+        </div>
+        <div class="mat-row">
+          <label>Juegos</label>
+          <input type="number" min="0" [(ngModel)]="datosActuales.materiales.juegos" />
+        </div>
+      </div>
+
+      <!-- Extras / cuotas -->
+      <div class="card-body">
+        <h3>Cuotas y adeudos</h3>
+        <div class="mat-row">
+          <label>Cuotas pagadas</label>
+          <input type="number" min="0" [(ngModel)]="datosActuales.extras.cuotas" />
+        </div>
+        <div class="mat-row">
+          <label>Adeudo total</label>
+          <input type="number" min="0" [(ngModel)]="datosActuales.extras.adeudo" />
+        </div>
+        <div class="mat-row total-row">
+          <label>Balance</label>
+          <span [class]="getAdeudo() <= 0 ? 'balance-ok' : 'balance-mal'">
+            {{ getAdeudo() <= 0 ? 'Al corriente' : '$' + getAdeudo() + ' pendiente' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Total puntos -->
+      <div class="card-body total-card">
+        <h3>Total de puntos</h3>
+        <div class="total-grande">{{ getTotalPuntos() }}</div>
+        <p class="total-label">puntos de formación</p>
+        <div class="desglose">
+          <div class="desglose-item">
+            <span>Uniformes</span>
+            <span>{{ getPuntosUniforme() }}</span>
+          </div>
+          <div class="desglose-item">
+            <span>Materiales</span>
+            <span>{{ getPuntosMateriales() }}</span>
+          </div>
+          <div class="desglose-item">
+            <span>Accesorios</span>
+            <span>{{ getPuntosExtras() }}</span>
+          </div>
+        </div>
+        <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
+        <p class="msg-guardado" *ngIf="guardado()">✅ Guardado</p>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>
+<app-futter></app-futter>

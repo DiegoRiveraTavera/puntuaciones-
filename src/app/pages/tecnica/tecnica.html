@@ -1,1 +1,79 @@
 <app-navbar></app-navbar>
+
+<div class="container">
+
+  <div class="card-header">
+    <h1>Técnica</h1>
+    <p class="subtitulo">Califica la estructura de cada escuadra del 1 al 10 por criterio</p>
+  </div>
+
+  <!-- Tabla de calificaciones -->
+  <div class="card-body">
+    <table class="tabla-tecnica">
+      <thead>
+        <tr>
+          <th>Escuadra</th>
+          <th *ngFor="let c of criterios">{{ c }}</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let escuadra of escuadras">
+          <td class="nombre-escuadra">
+            <div class="avatar">{{ escuadra.slice(0,2) }}</div>
+            {{ escuadra }}
+          </td>
+          <td>
+            <input type="number" min="1" max="10"
+              [(ngModel)]="calificaciones[escuadra].fuerza"
+              [class]="getColor(calificaciones[escuadra].fuerza)" />
+          </td>
+          <td>
+            <input type="number" min="1" max="10"
+              [(ngModel)]="calificaciones[escuadra].utilidad"
+              [class]="getColor(calificaciones[escuadra].utilidad)" />
+          </td>
+          <td>
+            <input type="number" min="1" max="10"
+              [(ngModel)]="calificaciones[escuadra].firmeza"
+              [class]="getColor(calificaciones[escuadra].firmeza)" />
+          </td>
+          <td>
+            <input type="number" min="1" max="10"
+              [(ngModel)]="calificaciones[escuadra].estabilidad"
+              [class]="getColor(calificaciones[escuadra].estabilidad)" />
+          </td>
+          <td>
+            <input type="number" min="1" max="10"
+              [(ngModel)]="calificaciones[escuadra].originalidad"
+              [class]="getColor(calificaciones[escuadra].originalidad)" />
+          </td>
+          <td class="total">{{ getTotal(escuadra) }}<span>/50</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="acciones">
+      <button class="btn-guardar" (click)="guardar()">💾 Guardar calificaciones</button>
+      <p class="msg-guardado" *ngIf="guardado()">✅ Calificaciones guardadas</p>
+    </div>
+  </div>
+
+  <!-- Ranking -->
+  <div class="card-body" *ngIf="getRanking()[0].total > 0">
+    <h3>Ranking actual</h3>
+    <div class="ranking-lista">
+      <div class="ranking-item" *ngFor="let e of getRanking(); let i = index">
+        <span class="posicion" [class]="'pos-' + (i+1)">{{ i + 1 }}°</span>
+        <div class="avatar">{{ e.nombre.slice(0,2) }}</div>
+        <span class="nombre">{{ e.nombre }}</span>
+        <div class="barra-wrapper">
+          <div class="barra" [style.width.%]="(e.total / 50) * 100"></div>
+        </div>
+        <span class="puntos">{{ e.total }} pts</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-futter></app-futter>

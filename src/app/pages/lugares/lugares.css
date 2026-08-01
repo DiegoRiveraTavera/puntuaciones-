@@ -1,0 +1,209 @@
+.container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.card-header {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+}
+
+.card-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.subtitulo { font-size: 14px; color: #777; margin: 0; }
+
+.card-body {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+}
+
+.card-body h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 1.2rem;
+  color: #111;
+}
+
+/* Podio */
+.podio-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 1rem 0;
+}
+
+.podio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 180px;
+}
+
+.medalla { font-size: 28px; }
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #E6F1FB;
+  color: #0C447C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.avatar.grande {
+  width: 52px;
+  height: 52px;
+  font-size: 16px;
+}
+
+.podio-nombre {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.podio-pts {
+  font-size: 13px;
+  color: #555;
+}
+
+.podio-base {
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 0;
+  margin-top: 6px;
+}
+
+.base-1 { background: #FAEEDA; color: #633806; height: 80px; display: flex; align-items: center; justify-content: center; }
+.base-2 { background: #E6F1FB; color: #0C447C; height: 60px; display: flex; align-items: center; justify-content: center; }
+.base-3 { background: #FAECE7; color: #993C1D; height: 44px; display: flex; align-items: center; justify-content: center; }
+
+/* Tabla */
+.tabla-lugares {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-lugares th {
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.tabla-lugares td {
+  padding: 12px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.tabla-lugares tr:last-child td { border-bottom: none; }
+
+.tabla-lugares tr.oro td   { background: #FFFBF0; }
+.tabla-lugares tr.plata td { background: #F5F8FF; }
+.tabla-lugares tr.bronce td{ background: #FFF5F0; }
+
+td.lugar { font-size: 20px; text-align: center; width: 48px; }
+.num-lugar { font-size: 15px; font-weight: 600; color: #555; }
+
+.nombre-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.pts-cell { text-align: center; }
+
+.chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chip.juegos    { background: #E6F1FB; color: #0C447C; }
+.chip.tecnica   { background: #E1F5EE; color: #085041; }
+.chip.formacion { background: #FAEEDA; color: #633806; }
+
+.total-cell {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  text-align: center;
+}
+
+.barra-cell { width: 140px; }
+
+.barra-wrapper {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.barra.oro    { background: #EF9F27; }
+.barra.plata  { background: #185FA5; }
+.barra.bronce { background: #D85A30; }
+.barra.normal { background: #888780; }
+
+/* Resumen por sección */
+.fila-resumen {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.resumen-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+}
+
+.resumen-icono { font-size: 28px; margin-bottom: 6px; }
+.resumen-label { font-size: 13px; color: #777; margin-bottom: 4px; }
+.resumen-top   { font-size: 14px; font-weight: 600; color: #111; }
+.resumen-pts   { font-size: 20px; font-weight: 700; color: #1a73e8; margin-top: 4px; }
+
+@media (max-width: 700px) {
+  .fila-resumen { grid-template-columns: 1fr; }
+  .podio-wrapper { gap: 6px; }
+}

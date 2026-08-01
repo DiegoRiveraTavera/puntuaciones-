@@ -1,0 +1,338 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.card-header {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+}
+
+.card-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #111;
+}
+
+.subtitulo { font-size: 14px; color: #777; margin: 0; }
+
+.card-body {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+}
+
+.card-body h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: #111;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 180px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.btn-agregar {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #1a73e8;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-agregar:hover { background: #1558b0; }
+
+/* Tabs */
+.tabs-juegos {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab-juego {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.tab-juego.active {
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+.badge {
+  font-size: 11px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+
+/* Juego header */
+.juego-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.juego-header h3 { margin: 0; }
+
+.valor-badge {
+  font-size: 12px;
+  background: #EAF3DE;
+  color: #27500A;
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.btn-rol {
+  margin-left: auto;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #1a73e8;
+  background: transparent;
+  color: #1a73e8;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-rol:hover { background: #E6F1FB; }
+
+/* Roles */
+.roles-lista { display: flex; flex-direction: column; gap: 1rem; }
+
+.rol-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+
+.rol-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.8rem;
+}
+
+.rol-titulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.btn-enf {
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+  color: #555;
+}
+
+.btn-enf:hover { background: #f5f5f5; }
+
+.btn-eliminar-rol {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #F09595;
+  color: #A32D2D;
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Enfrentamientos */
+.enfrentamientos { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.enfrentamiento {
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.escuadras-enf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  flex: 1;
+}
+
+.escuadra-select {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.escuadra-select select,
+.ganador-select select {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #333;
+  background: white;
+}
+
+.btn-quitar {
+  background: transparent;
+  border: none;
+  color: #A32D2D;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.btn-add-esc {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px dashed #ccc;
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+}
+
+.ganador-select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: 1px solid #F09595;
+  color: #A32D2D;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.sin-enf, .sin-roles {
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.btn-guardar {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  background: #2e7d32;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-guardar:hover { background: #1b5e20; }
+
+.msg-guardado {
+  font-size: 13px;
+  color: #27500A;
+  background: #EAF3DE;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 0;
+}
+
+/* Ranking */
+.ranking-lista { display: flex; flex-direction: column; gap: 10px; }
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.posicion { font-size: 18px; font-weight: 700; width: 32px; text-align: center; }
+.pos-1 { color: #B07D00; }
+.pos-2 { color: #5F5E5A; }
+.pos-3 { color: #7A4E00; }
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #E6F1FB;
+  color: #0C447C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.nombre { font-size: 14px; font-weight: 500; width: 60px; color: #111; }
+
+.barra-wrapper {
+  flex: 1;
+  height: 10px;
+  background: #f0f0f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra {
+  height: 100%;
+  background: #1a73e8;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.puntos { font-size: 13px; font-weight: 600; color: #333; width: 60px; text-align: right; }

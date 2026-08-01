@@ -1,0 +1,27 @@
+<div class="watch-frame" *ngIf="payload()">
+  <div class="watch-screen">
+
+    <div class="watch-header">{{ payload()!.escuadra }}</div>
+
+    <div class="watch-stat">
+      <span class="valor">{{ payload()!.totalMiembros }}</span>
+      <span class="label">miembros</span>
+    </div>
+
+    <div class="watch-stat">
+      <span class="valor">{{ payload()!.totalPuntos }}</span>
+      <span class="label">puntos</span>
+    </div>
+
+    <div class="watch-alertas" *ngIf="payload()!.alertas.length > 0">
+      <div class="alerta" *ngFor="let a of payload()!.alertas">⚠ {{ a }}</div>
+    </div>
+
+    <button class="watch-btn" (click)="sincronizar()" [disabled]="enviando()">
+      {{ enviando() ? 'Enviando...' : (enviado() ? '✓ Sincronizado' : 'Enviar al reloj') }}
+    </button>
+
+  </div>
+</div>
+
+<p class="sin-datos" *ngIf="!payload()">Selecciona una escuadra para previsualizar el widget.</p>

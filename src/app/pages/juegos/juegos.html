@@ -1,1 +1,117 @@
 <app-navbar></app-navbar>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="card-header">
+    <h1>Juegos</h1>
+    <p class="subtitulo">Agrega juegos, define roles y registra los ganadores de cada enfrentamiento</p>
+  </div>
+
+  <!-- Agregar juego -->
+  <div class="card-body">
+    <h3>Agregar juego</h3>
+    <div class="input-row">
+      <input type="text" placeholder="Nombre del juego (ej. Tiro al blanco)"
+        [(ngModel)]="nuevoNombre" (keydown.enter)="agregarJuego()" />
+      <input type="number" placeholder="Valor (pts)" min="1"
+        [(ngModel)]="nuevoValor" style="width: 120px" />
+      <button class="btn-agregar" (click)="agregarJuego()">+ Agregar</button>
+    </div>
+  </div>
+
+  <!-- Tabs de juegos -->
+  <div class="tabs-juegos" *ngIf="juegos.length > 0">
+    <button
+      *ngFor="let j of juegos"
+      class="tab-juego"
+      [class.active]="juegoActivo?.id === j.id"
+      (click)="juegoActivo = j">
+      {{ j.nombre }}
+      <span class="badge">{{ j.valor }} pts</span>
+    </button>
+  </div>
+
+  <!-- Contenido del juego activo -->
+  <div class="card-body" *ngIf="juegoActivo">
+    <div class="juego-header">
+      <h3>{{ juegoActivo.nombre }}</h3>
+      <span class="valor-badge">{{ juegoActivo.valor }} pts por ganador</span>
+      <button class="btn-rol" (click)="agregarRol(juegoActivo)">+ Agregar rol</button>
+    </div>
+
+    <!-- Roles -->
+    <div class="roles-lista">
+      <div class="rol-card" *ngFor="let rol of juegoActivo.roles; let ri = index">
+        <div class="rol-header">
+          <span class="rol-titulo">Rol {{ rol.numero }}</span>
+          <button class="btn-enf" (click)="agregarEnfrentamiento(rol)">+ Enfrentamiento</button>
+          <button class="btn-eliminar-rol" (click)="eliminarRol(juegoActivo!, ri)">✕</button>
+        </div>
+
+        <!-- Enfrentamientos -->
+        <div class="enfrentamientos">
+          <div class="enfrentamiento" *ngFor="let enf of rol.enfrentamientos; let ei = index">
+
+            <div class="escuadras-enf">
+              <div class="escuadra-select"
+                *ngFor="let esc of enf.escuadras; let si = index; trackBy: trackByIndex">
+                <select [(ngModel)]="enf.escuadras[si]">
+                  <option value="">-- Escuadra --</option>
+                  <option *ngFor="let e of escuadrasDisponibles" [value]="e">{{ e }}</option>
+                </select>
+                <button class="btn-quitar"
+                  *ngIf="enf.escuadras.length > 2"
+                  (click)="quitarEscuadraDelEnfrentamiento(enf, si)">✕</button>
+              </div>
+              <button class="btn-add-esc"
+                (click)="agregarEscuadraAlEnfrentamiento(enf)">+ escuadra</button>
+            </div>
+
+            <div class="ganador-select">
+              <label>Ganador:</label>
+              <select [(ngModel)]="enf.ganador">
+                <option value="">-- Sin definir --</option>
+                <option *ngFor="let e of enf.escuadras" [value]="e" [disabled]="!e">{{ e || '...' }}</option>
+              </select>
+            </div>
+
+            <button class="btn-eliminar"
+              (click)="eliminarEnfrentamiento(rol, ei)">Eliminar</button>
+          </div>
+
+          <p class="sin-enf" *ngIf="rol.enfrentamientos.length === 0">
+            Sin enfrentamientos. Agrega uno arriba.
+          </p>
+        </div>
+      </div>
+
+      <p class="sin-roles" *ngIf="juegoActivo.roles.length === 0">
+        Sin roles. Agrega el primer rol arriba.
+      </p>
+    </div>
+
+    <div class="acciones">
+      <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
+      <p class="msg-guardado" *ngIf="guardado()">✅ Guardado correctamente</p>
+    </div>
+  </div>
+
+  <!-- Resumen de puntos -->
+  <div class="card-body" *ngIf="getResumen().length > 0">
+    <h3>Puntos acumulados en juegos</h3>
+    <div class="ranking-lista">
+      <div class="ranking-item" *ngFor="let e of getResumen(); let i = index">
+        <span class="posicion" [class]="'pos-'+(i+1)">{{ i+1 }}°</span>
+        <div class="avatar">{{ e.nombre.slice(0,2) }}</div>
+        <span class="nombre">{{ e.nombre }}</span>
+        <div class="barra-wrapper">
+          <div class="barra" [style.width.%]="(e.puntos / getResumen()[0].puntos) * 100"></div>
+        </div>
+        <span class="puntos">{{ e.puntos }} pts</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-futter></app-futter>

@@ -1,1 +1,106 @@
 <app-navbar></app-navbar>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="card-header">
+    <h1>🏆 Lugares</h1>
+    <p class="subtitulo">Ranking final basado en Juegos + Técnica + Formación</p>
+  </div>
+
+  <!-- Podio top 3 -->
+  <div class="podio-wrapper">
+    <div class="podio-card plata" *ngIf="getRanking()[1]">
+      <div class="medalla">🥈</div>
+      <div class="avatar grande">{{ getRanking()[1].nombre.slice(0,2) }}</div>
+      <div class="podio-nombre">{{ getRanking()[1].nombre }}</div>
+      <div class="podio-pts">{{ getRanking()[1].total }} pts</div>
+      <div class="podio-base base-2">2°</div>
+    </div>
+    <div class="podio-card oro" *ngIf="getRanking()[0]">
+      <div class="medalla">🥇</div>
+      <div class="avatar grande">{{ getRanking()[0].nombre.slice(0,2) }}</div>
+      <div class="podio-nombre">{{ getRanking()[0].nombre }}</div>
+      <div class="podio-pts">{{ getRanking()[0].total }} pts</div>
+      <div class="podio-base base-1">1°</div>
+    </div>
+    <div class="podio-card bronce" *ngIf="getRanking()[2]">
+      <div class="medalla">🥉</div>
+      <div class="avatar grande">{{ getRanking()[2].nombre.slice(0,2) }}</div>
+      <div class="podio-nombre">{{ getRanking()[2].nombre }}</div>
+      <div class="podio-pts">{{ getRanking()[2].total }} pts</div>
+      <div class="podio-base base-3">3°</div>
+    </div>
+  </div>
+
+  <!-- Tabla completa -->
+  <div class="card-body">
+    <h3>Clasificación completa</h3>
+    <table class="tabla-lugares">
+      <thead>
+        <tr>
+          <th>Lugar</th>
+          <th>Escuadra</th>
+          <th>Juegos</th>
+          <th>Técnica</th>
+          <th>Formación</th>
+          <th>Total</th>
+          <th>Progreso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of getRanking(); let i = index"
+            [class]="getPosicionClass(i)">
+          <td class="lugar">
+            <span *ngIf="i < 3">{{ getMedalla(i) }}</span>
+            <span *ngIf="i >= 3" class="num-lugar">{{ i + 1 }}°</span>
+          </td>
+          <td class="nombre-cell">
+            <div class="avatar">{{ e.nombre.slice(0,2) }}</div>
+            {{ e.nombre }}
+          </td>
+          <td class="pts-cell">
+            <span class="chip juegos">{{ e.juegos }}</span>
+          </td>
+          <td class="pts-cell">
+            <span class="chip tecnica">{{ e.tecnica }}</span>
+          </td>
+          <td class="pts-cell">
+            <span class="chip formacion">{{ e.formacion }}</span>
+          </td>
+          <td class="total-cell">{{ e.total }}</td>
+          <td class="barra-cell">
+            <div class="barra-wrapper">
+              <div class="barra" [style.width.%]="getPorcentaje(e.total)"
+                   [class]="getPosicionClass(i)"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Resumen de puntos por sección -->
+  <div class="fila-resumen">
+  <div class="resumen-card">
+    <div class="resumen-icono">🎮</div>
+    <div class="resumen-label">Juegos</div>
+    <div class="resumen-top">{{ getLiderJuegos()?.nombre }} lidera</div>
+    <div class="resumen-pts">{{ getLiderJuegos()?.juegos }} pts</div>
+  </div>
+  <div class="resumen-card">
+    <div class="resumen-icono">🔧</div>
+    <div class="resumen-label">Técnica</div>
+    <div class="resumen-top">{{ getLiderTecnica()?.nombre }} lidera</div>
+    <div class="resumen-pts">{{ getLiderTecnica()?.tecnica }} pts</div>
+  </div>
+  <div class="resumen-card">
+    <div class="resumen-icono">📋</div>
+    <div class="resumen-label">Formación</div>
+    <div class="resumen-top">{{ getLiderFormacion()?.nombre }} lidera</div>
+    <div class="resumen-pts">{{ getLiderFormacion()?.formacion }} pts</div>
+  </div>
+</div>
+
+</div>
+<app-futter></app-futter>

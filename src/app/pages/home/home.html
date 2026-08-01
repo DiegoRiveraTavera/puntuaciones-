@@ -1,10 +1,9 @@
 <app-navbar></app-navbar>
 
 <div class="container">
-
   <!-- Card Puntuaciones -->
   <div class="card-header">
-    <h1>🏆 PUNTUACIONES 🏆</h1>
+    <h1>PUNTUACIONES</h1>
     <div class="fecha">
       <label>FECHA:</label>
       <input type="date" [(ngModel)]="fecha" />
@@ -19,10 +18,45 @@
         type="text"
         placeholder="Nombre de la escuadra (ej: RRMS, ANK, ATL)"
         [(ngModel)]="nuevaEscuadra"
+        (keydown.enter)="agregar()"
       />
       <button class="btn-agregar" (click)="agregar()">+ Agregar</button>
       <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
     </div>
+
+    <!-- Mensaje de guardado -->
+    <p class="msg-guardado" *ngIf="guardado">✅ Escuadras guardadas correctamente</p>
   </div>
 
+  <!-- Tabla de escuadras -->
+  <div class="card-body" *ngIf="escuadras.length > 0">
+    <h3>Escuadras registradas</h3>
+    <table class="tabla-escuadras">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+  <tr *ngFor="let e of escuadras; let i = index">
+    <td><span class="num-badge">{{ i + 1 }}</span></td>
+    <td>
+      <div class="nombre-cell">
+        <div class="avatar">{{ e.slice(0,2).toUpperCase() }}</div>
+        <span>{{ e }}</span>
+      </div>
+    </td>
+    <td>
+      <button class="btn-eliminar" (click)="eliminar(i)">Eliminar</button>
+    </td>
+  </tr>
+</tbody>
+    </table>
+  </div>
+<app-wearable-widget [nombreEscuadra]="'RRMS'"></app-wearable-widget>
+
 </div>
+
+<app-futter></app-futter>
