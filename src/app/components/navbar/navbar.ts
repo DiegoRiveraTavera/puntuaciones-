@@ -54,8 +54,10 @@ export class NavbarComponent {
   }
 
   onSearch() {
-    this.results = this.searchService.search(this.searchQuery);
-  }
+  this.searchService.search(this.searchQuery).subscribe(resultados => {
+    this.results = resultados;
+  });
+}
 
   goTo(result: SearchResult) {
     this.router.navigate([result.route]);

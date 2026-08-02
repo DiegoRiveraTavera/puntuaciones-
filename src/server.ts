@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { crearIndice, sembrarDatos, buscar } from './elastic-client';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -27,6 +28,26 @@ const angularApp = new AngularNodeAppEngine();
 /**
  * Serve static files from /browser
  */
+
+crearIndice()
+  .then(sembrarDatos)
+  .catch(err => console.error('Error preparando Elasticsearch:', err));
+
+app.get('/api/buscar', async (req, res) => {
+  const q = String(req.query['q'] ?? '');
+  if (q.trim().length < 2) {
+    res.json([]);
+    return;
+  }
+  try {
+    const resultados = await buscar(q);
+    res.json(resultados);
+  } catch (err) {
+    console.error('Error en búsqueda:', err);
+    res.status(500).json({ error: 'Error al buscar' });
+  }
+});
+
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
