@@ -20,6 +20,8 @@ export class NavbarComponent {
     { label: 'Juegos',    route: '/juegos' },
     { label: 'Técnica',   route: '/tecnica' },
     { label: 'Lugares',   route: '/lugares' },
+    { label: 'Acerca',    route: '/acerca' },
+    { label: 'Estadísticas', route: '/estadisticas' },
   ];
 
   activeTab = 'Inicio';

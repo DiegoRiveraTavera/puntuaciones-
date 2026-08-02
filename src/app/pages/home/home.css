@@ -188,3 +188,34 @@
 }
 
 .btn-eliminar:hover { background: #FCEBEB; }
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+}
+
+.hero-texto h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.6rem;
+}
+
+.hero-texto p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+  max-width: 420px;
+  margin: 0;
+}
+
+.hero-imagen svg {
+  width: 140px;
+  height: 110px;
+}
