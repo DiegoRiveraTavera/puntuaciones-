@@ -13,21 +13,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
-
-/**
- * Serve static files from /browser
- */
+app.use(express.json());
 
 crearIndice()
   .then(sembrarDatos)
@@ -48,6 +34,32 @@ app.get('/api/buscar', async (req, res) => {
   }
 });
 
+// Guarda la última notificación en memoria (simple, sin base de datos)
+let ultimaNotificacionTecnica: {
+  id: number;
+  escuadra: string;
+  puntos: number;
+  fecha: string;
+} | null = null;
+
+app.post('/api/notificaciones/tecnica', (req, res) => {
+  const { escuadra, puntos } = req.body;
+  ultimaNotificacionTecnica = {
+    id: Date.now(),
+    escuadra,
+    puntos,
+    fecha: new Date().toISOString(),
+  };
+  res.json({ ok: true });
+});
+
+app.get('/api/notificaciones/tecnica', (req, res) => {
+  res.json(ultimaNotificacionTecnica ?? { id: 0 });
+});
+
+/**
+ * Serve static files from /browser
+ */
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',

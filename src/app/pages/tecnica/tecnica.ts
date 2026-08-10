@@ -1,6 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
 
@@ -34,7 +35,7 @@ export class Tecnica {
   calificaciones: { [escuadra: string]: CalificacionTecnica } = {};
   guardado = signal(false);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.escuadras.forEach(e => {
       this.calificaciones[e] = {
         fuerza: 0, utilidad: 0, firmeza: 0,
@@ -64,5 +65,14 @@ export class Tecnica {
   guardar() {
     this.guardado.set(true);
     setTimeout(() => this.guardado.set(false), 3000);
+
+    // Notificamos al reloj con la escuadra líder de esta ronda
+    const lider = this.getRanking()[0];
+    if (lider && lider.total > 0) {
+      this.http.post('/api/notificaciones/tecnica', {
+        escuadra: lider.nombre,
+        puntos: lider.total
+      }).subscribe();
+    }
   }
 }
