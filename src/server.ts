@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -7,6 +8,9 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 import { crearIndice, sembrarDatos, buscar } from './elastic-client';
+import { initializeApp, cert } from 'firebase-admin/app';
+import { getMessaging } from 'firebase-admin/messaging';
+import { readFileSync } from 'node:fs';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -14,6 +18,31 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 app.use(express.json());
+
+let messagingInstance: ReturnType<typeof getMessaging> | null = null;
+
+function obtenerMessaging() {
+  if (!messagingInstance) {
+    const path = process.env['FIREBASE_SERVICE_ACCOUNT_PATH'];
+    if (!path) {
+      throw new Error('FIREBASE_SERVICE_ACCOUNT_PATH no está definido');
+    }
+    const serviceAccount = JSON.parse(readFileSync(path, 'utf-8'));
+    initializeApp({ credential: cert(serviceAccount) });
+    messagingInstance = getMessaging();
+  }
+  return messagingInstance;
+}
+
+// Registro simple en memoria del token del reloj (después: base de datos / Firestore)
+let deviceToken: string | null = null;
+
+app.post('/api/dispositivo/registrar', (req, res) => {
+  const { token } = req.body;
+  deviceToken = token;
+  console.log('[FCM] Token de dispositivo registrado:', token);
+  res.json({ ok: true });
+});
 
 crearIndice()
   .then(sembrarDatos)
@@ -42,7 +71,7 @@ let ultimaNotificacionTecnica: {
   fecha: string;
 } | null = null;
 
-app.post('/api/notificaciones/tecnica', (req, res) => {
+app.post('/api/notificaciones/tecnica', async (req, res) => {
   const { escuadra, puntos } = req.body;
   ultimaNotificacionTecnica = {
     id: Date.now(),
@@ -50,6 +79,24 @@ app.post('/api/notificaciones/tecnica', (req, res) => {
     puntos,
     fecha: new Date().toISOString(),
   };
+
+  if (deviceToken) {
+    try {
+await obtenerMessaging().send({
+          token: deviceToken,
+        notification: {
+          title: `Nueva puntuación técnica`,
+          body: `${escuadra} va liderando con ${puntos} puntos`,
+        },
+      });
+      console.log('[FCM] Notificación enviada al reloj');
+    } catch (err) {
+      console.error('[FCM] Error al enviar:', err);
+    }
+  } else {
+    console.warn('[FCM] No hay token de dispositivo registrado todavía');
+  }
+
   res.json({ ok: true });
 });
 
