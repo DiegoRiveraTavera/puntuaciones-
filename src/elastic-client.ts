@@ -39,7 +39,10 @@ export async function sembrarDatos() {
     { title: 'Acerca de',    description: 'Quiénes somos y ubicación',               route: '/acerca-de',    type: 'página' },
   ];
 
-  const operations = docs.flatMap(doc => [{ index: { _index: INDEX } }, doc]);
+  const operations = docs.flatMap(doc => [
+    { index: { _index: INDEX, _id: doc.route } }, // ← el ID fijo evita duplicados
+    doc,
+  ]);
   await esClient.bulk({ refresh: true, operations });
 }
 
@@ -47,10 +50,23 @@ export async function buscar(query: string): Promise<DocContenido[]> {
   const resultado = await esClient.search<DocContenido>({
     index: INDEX,
     query: {
-      multi_match: {
-        query,
-        fields: ['title^3', 'description'],
-        fuzziness: 'AUTO',
+      bool: {
+        should: [
+          {
+            multi_match: {
+              query,
+              type: 'phrase_prefix',
+              fields: ['title^3', 'description'],
+            },
+          },
+          {
+            multi_match: {
+              query,
+              fields: ['title^3', 'description'],
+              fuzziness: 'AUTO',
+            },
+          },
+        ],
       },
     },
   });
