@@ -9,7 +9,7 @@
 
 .card-header {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 1.5rem 2rem;
 }
@@ -18,14 +18,14 @@
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 4px;
-  color: #111;
+  color: var(--negro);
 }
 
-.subtitulo { font-size: 14px; color: #777; margin: 0; }
+.subtitulo { font-size: 14px; color: var(--gris); margin: 0; }
 
 .card-body {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 1.8rem 2rem;
 }
@@ -34,7 +34,7 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 1rem;
-  color: #111;
+  color: var(--negro);
 }
 
 .input-row {
@@ -47,7 +47,7 @@
 .input-row input {
   flex: 1;
   min-width: 180px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gris);
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 14px;
@@ -57,7 +57,7 @@
   padding: 10px 20px;
   border-radius: 10px;
   border: none;
-  background: #1a73e8;
+  background: var(--turquesa);
   color: white;
   font-size: 14px;
   font-weight: 500;
@@ -65,7 +65,7 @@
   white-space: nowrap;
 }
 
-.btn-agregar:hover { background: #1558b0; }
+.btn-agregar:hover { background: var(--turquesa-oscuro); }
 
 /* Tabs */
 .tabs-juegos {
@@ -77,7 +77,7 @@
 .tab-juego {
   padding: 8px 16px;
   border-radius: 999px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   background: white;
   font-size: 14px;
   cursor: pointer;
@@ -88,9 +88,9 @@
 }
 
 .tab-juego.active {
-  background: #1a73e8;
+  background: var(--turquesa);
   color: white;
-  border-color: #1a73e8;
+  border-color: var(--turquesa);
 }
 
 .badge {
@@ -113,8 +113,8 @@
 
 .valor-badge {
   font-size: 12px;
-  background: #EAF3DE;
-  color: #27500A;
+  background: var(--turquesa-claro);
+  color: var(--turquesa-oscuro);
   border-radius: 999px;
   padding: 4px 12px;
 }
@@ -123,20 +123,20 @@
   margin-left: auto;
   padding: 8px 16px;
   border-radius: 10px;
-  border: 1px solid #1a73e8;
+  border: 1px solid var(--turquesa);
   background: transparent;
-  color: #1a73e8;
+  color: var(--turquesa);
   font-size: 13px;
   cursor: pointer;
 }
 
-.btn-rol:hover { background: #E6F1FB; }
+.btn-rol:hover { background: var(--turquesa-claro); }
 
 /* Roles */
 .roles-lista { display: flex; flex-direction: column; gap: 1rem; }
 
 .rol-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 12px;
   padding: 1rem 1.2rem;
 }
@@ -151,26 +151,26 @@
 .rol-titulo {
   font-size: 14px;
   font-weight: 600;
-  color: #111;
+  color: var(--negro);
 }
 
 .btn-enf {
   padding: 5px 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gris);
   background: transparent;
   font-size: 12px;
   cursor: pointer;
-  color: #555;
+  color: var(--gris);
 }
 
-.btn-enf:hover { background: #f5f5f5; }
+.btn-enf:hover { background: var(--gris-fondo); }
 
 .btn-eliminar-rol {
   margin-left: auto;
   background: transparent;
-  border: 1px solid #F09595;
-  color: #A32D2D;
+  border: 1px solid var(--gris-claro);
+  color: var(--negro);
   border-radius: 8px;
   padding: 4px 10px;
   cursor: pointer;
@@ -181,8 +181,8 @@
 .enfrentamientos { display: flex; flex-direction: column; gap: 0.8rem; }
 
 .enfrentamiento {
-  background: #fafafa;
-  border: 1px solid #f0f0f0;
+  background: var(--gris-fondo);
+  border: 1px solid var(--gris-fondo);
   border-radius: 10px;
   padding: 0.8rem 1rem;
   display: flex;
@@ -207,18 +207,18 @@
 
 .escuadra-select select,
 .ganador-select select {
-  border: 1px solid #ccc;
+  border: 1px solid var(--gris);
   border-radius: 8px;
   padding: 6px 10px;
   font-size: 13px;
-  color: #333;
+  color: var(--negro-suave);
   background: white;
 }
 
 .btn-quitar {
   background: transparent;
   border: none;
-  color: #A32D2D;
+  color: var(--negro);
   cursor: pointer;
   font-size: 12px;
   padding: 0 4px;
@@ -227,10 +227,10 @@
 .btn-add-esc {
   padding: 5px 10px;
   border-radius: 8px;
-  border: 1px dashed #ccc;
+  border: 1px dashed var(--gris);
   background: transparent;
   font-size: 12px;
-  color: #555;
+  color: var(--gris);
   cursor: pointer;
 }
 
@@ -239,14 +239,14 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #555;
+  color: var(--gris);
   white-space: nowrap;
 }
 
 .btn-eliminar {
   background: transparent;
-  border: 1px solid #F09595;
-  color: #A32D2D;
+  border: 1px solid var(--gris-claro);
+  color: var(--negro);
   border-radius: 8px;
   padding: 5px 10px;
   cursor: pointer;
@@ -256,7 +256,7 @@
 
 .sin-enf, .sin-roles {
   font-size: 13px;
-  color: #aaa;
+  color: var(--gris);
   text-align: center;
   padding: 1rem 0;
 }
@@ -272,19 +272,19 @@
   padding: 10px 22px;
   border-radius: 10px;
   border: none;
-  background: #2e7d32;
+  background: var(--morado);
   color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
 }
 
-.btn-guardar:hover { background: #1b5e20; }
+.btn-guardar:hover { background: var(--morado-oscuro); }
 
 .msg-guardado {
   font-size: 13px;
-  color: #27500A;
-  background: #EAF3DE;
+  color: var(--turquesa-oscuro);
+  background: var(--turquesa-claro);
   border-radius: 8px;
   padding: 8px 14px;
   margin: 0;
@@ -300,16 +300,16 @@
 }
 
 .posicion { font-size: 18px; font-weight: 700; width: 32px; text-align: center; }
-.pos-1 { color: #B07D00; }
-.pos-2 { color: #5F5E5A; }
-.pos-3 { color: #7A4E00; }
+.pos-1 { color: var(--morado); }
+.pos-2 { color: var(--negro-suave); }
+.pos-3 { color: var(--turquesa-oscuro); }
 
 .avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #E6F1FB;
-  color: #0C447C;
+  background: var(--turquesa-claro);
+  color: var(--turquesa-oscuro);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,21 +318,21 @@
   flex-shrink: 0;
 }
 
-.nombre { font-size: 14px; font-weight: 500; width: 60px; color: #111; }
+.nombre { font-size: 14px; font-weight: 500; width: 60px; color: var(--negro); }
 
 .barra-wrapper {
   flex: 1;
   height: 10px;
-  background: #f0f0f0;
+  background: var(--gris-fondo);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .barra {
   height: 100%;
-  background: #1a73e8;
+  background: var(--turquesa);
   border-radius: 999px;
   transition: width 0.4s ease;
 }
 
-.puntos { font-size: 13px; font-weight: 600; color: #333; width: 60px; text-align: right; }
+.puntos { font-size: 13px; font-weight: 600; color: var(--negro-suave); width: 60px; text-align: right; }

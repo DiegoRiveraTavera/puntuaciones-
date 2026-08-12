@@ -9,7 +9,7 @@
 
 .card-header {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 2rem 2.5rem;
   text-align: center;
@@ -19,7 +19,7 @@
   font-size: 26px;
   font-weight: 700;
   letter-spacing: 3px;
-  color: #111;
+  color: var(--negro);
   margin: 0 0 1.2rem;
 }
 
@@ -29,11 +29,11 @@
   justify-content: center;
   gap: 10px;
   font-size: 15px;
-  color: #555;
+  color: var(--gris);
 }
 
 .fecha input {
-  border: 1px solid #ccc;
+  border: 1px solid var(--gris-claro);
   border-radius: 8px;
   padding: 6px 12px;
   font-size: 15px;
@@ -41,7 +41,7 @@
 
 .card-body {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 1.8rem 2rem;
 }
@@ -49,7 +49,7 @@
 .card-body h3 {
   font-size: 17px;
   font-weight: 600;
-  color: #111;
+  color: var(--negro);
   margin: 0 0 1.2rem;
 }
 
@@ -61,22 +61,22 @@
 
 .input-row input {
   flex: 1;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gris-claro);
   border-radius: 10px;
   padding: 12px 16px;
   font-size: 15px;
-  color: #333;
+  color: var(--negro-suave);
 }
 
 .input-row input::placeholder {
-  color: #aaa;
+  color: var(--gris);
 }
 
 .btn-agregar {
   padding: 12px 22px;
   border-radius: 10px;
   border: none;
-  background: #1a73e8;
+  background: var(--turquesa);
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -84,13 +84,13 @@
   white-space: nowrap;
 }
 
-.btn-agregar:hover { background: #1558b0; }
+.btn-agregar:hover { background: var(--turquesa-oscuro); }
 
 .btn-guardar {
   padding: 12px 22px;
   border-radius: 10px;
   border: none;
-  background: #2e7d32;
+  background: var(--morado);
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -98,13 +98,13 @@
   white-space: nowrap;
 }
 
-.btn-guardar:hover { background: #1b5e20; }
+.btn-guardar:hover { background: var(--morado-oscuro); }
 
 .msg-guardado {
   margin-top: 12px;
   font-size: 14px;
-  color: #27500A;
-  background: #EAF3DE;
+  color: var(--turquesa-oscuro);
+  background: var(--turquesa-claro);
   border-radius: 8px;
   padding: 10px 14px;
 }
@@ -119,9 +119,9 @@
 .tabla-escuadras th {
   text-align: left;
   padding: 13px 16px;
-  background: #f9f9f9;
-  border-bottom: 1px solid #e0e0e0;
-  color: #777;
+  background: var(--gris-fondo);
+  border-bottom: 1px solid var(--gris-claro);
+  color: var(--gris);
   font-weight: 500;
   font-size: 13px;
   text-transform: uppercase;
@@ -133,13 +133,13 @@
 
 .tabla-escuadras td {
   padding: 14px 16px;
-  border-bottom: 1px solid #f0f0f0;
-  color: #222;
+  border-bottom: 1px solid var(--gris-fondo);
+  color: var(--negro-suave);
 }
 
 .tabla-escuadras tr:last-child td { border-bottom: none; }
 
-.tabla-escuadras tr:hover td { background: #fdf6ec; }
+.tabla-escuadras tr:hover td { background: var(--morado-claro); }
 
 /* Avatar con iniciales */
 .nombre-cell {
@@ -152,8 +152,8 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #E6F1FB;
-  color: #0C447C;
+  background: var(--turquesa-claro);
+  color: var(--turquesa-oscuro);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,16 +170,16 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #FAEEDA;
-  color: #633806;
+  background: var(--morado-claro);
+  color: var(--morado-oscuro);
   font-weight: 600;
   font-size: 13px;
 }
 
 .btn-eliminar {
   background: transparent;
-  border: 1px solid #F09595;
-  color: #A32D2D;
+  border: 1px solid var(--gris-claro);
+  color: var(--negro);
   border-radius: 8px;
   padding: 7px 14px;
   cursor: pointer;
@@ -187,7 +187,7 @@
   transition: background 0.15s;
 }
 
-.btn-eliminar:hover { background: #FCEBEB; }
+.btn-eliminar:hover { background: var(--gris-fondo); }
 
 .hero {
   display: flex;
@@ -195,7 +195,7 @@
   justify-content: space-between;
   gap: 2rem;
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 2rem 2.5rem;
 }
@@ -203,13 +203,13 @@
 .hero-texto h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #111;
+  color: var(--negro);
   margin: 0 0 0.6rem;
 }
 
 .hero-texto p {
   font-size: 15px;
-  color: #555;
+  color: var(--gris);
   line-height: 1.5;
   max-width: 420px;
   margin: 0;

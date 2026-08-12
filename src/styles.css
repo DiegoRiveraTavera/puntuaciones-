@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --negro: #111111;
+  --negro-suave: #333333;
+  --gris: #767676;
+  --gris-claro: #e0e0e0;
+  --gris-fondo: #f2f2f2;
+  --blanco: #ffffff;
+
+  --turquesa: #14B8A6;
+  --turquesa-oscuro: #0D9488;
+  --turquesa-claro: #CCFBF1;
+
+  --morado: #7C3AED;
+  --morado-oscuro: #5B21B6;
+  --morado-claro: #EDE5FB;
+}
+
+body {
+  color: var(--negro);
+  background: var(--blanco);
+  margin: 0;
+}

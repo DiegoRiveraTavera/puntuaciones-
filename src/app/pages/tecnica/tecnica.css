@@ -9,7 +9,7 @@
 
 .card-header {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 1.5rem 2rem;
 }
@@ -18,18 +18,18 @@
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 4px;
-  color: #111;
+  color: var(--negro);
 }
 
 .subtitulo {
   font-size: 14px;
-  color: #777;
+  color: var(--gris);
   margin: 0;
 }
 
 .card-body {
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 16px;
   padding: 1.8rem 2rem;
 }
@@ -38,7 +38,7 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 1rem;
-  color: #111;
+  color: var(--negro);
 }
 
 /* Tabla */
@@ -50,9 +50,9 @@
 
 .tabla-tecnica th {
   padding: 10px 8px;
-  background: #f9f9f9;
-  border-bottom: 1px solid #e0e0e0;
-  color: #666;
+  background: var(--gris-fondo);
+  border-bottom: 1px solid var(--gris-claro);
+  color: var(--gris);
   font-weight: 500;
   font-size: 12px;
   text-transform: uppercase;
@@ -64,7 +64,7 @@
 
 .tabla-tecnica td {
   padding: 10px 8px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--gris-fondo);
   text-align: center;
 }
 
@@ -76,15 +76,15 @@
   gap: 8px;
   text-align: left !important;
   font-weight: 500;
-  color: #111;
+  color: var(--negro);
 }
 
 .avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #E6F1FB;
-  color: #0C447C;
+  background: var(--turquesa-claro);
+  color: var(--turquesa-oscuro);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,12 +97,12 @@
 .tabla-tecnica input[type="number"] {
   width: 52px;
   padding: 6px 4px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gris-claro);
   border-radius: 8px;
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--negro-suave);
   transition: border-color 0.15s, background 0.15s;
   -moz-appearance: textfield;
 }
@@ -110,23 +110,23 @@
 .tabla-tecnica input::-webkit-outer-spin-button,
 .tabla-tecnica input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-.tabla-tecnica input:focus { outline: none; border-color: #1a73e8; }
+.tabla-tecnica input:focus { outline: none; border-color: var(--turquesa); }
 
-.tabla-tecnica input.alto    { background: #EAF3DE; border-color: #97C459; color: #27500A; }
-.tabla-tecnica input.medio   { background: #FAEEDA; border-color: #EF9F27; color: #633806; }
-.tabla-tecnica input.bajo    { background: #FCEBEB; border-color: #F09595; color: #A32D2D; }
+.tabla-tecnica input.alto  { background: var(--turquesa-claro); border-color: var(--turquesa); color: var(--turquesa-oscuro); }
+.tabla-tecnica input.medio { background: var(--morado-claro); border-color: var(--morado); color: var(--morado-oscuro); }
+.tabla-tecnica input.bajo  { background: var(--gris-fondo); border-color: var(--gris-claro); color: var(--negro); }
 
 /* Total */
 td.total {
   font-size: 18px;
   font-weight: 700;
-  color: #111;
+  color: var(--negro);
 }
 
 td.total span {
   font-size: 12px;
   font-weight: 400;
-  color: #aaa;
+  color: var(--gris);
 }
 
 /* Acciones */
@@ -141,19 +141,19 @@ td.total span {
   padding: 10px 22px;
   border-radius: 10px;
   border: none;
-  background: #2e7d32;
+  background: var(--morado);
   color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
 }
 
-.btn-guardar:hover { background: #1b5e20; }
+.btn-guardar:hover { background: var(--morado-oscuro); }
 
 .msg-guardado {
   font-size: 13px;
-  color: #27500A;
-  background: #EAF3DE;
+  color: var(--turquesa-oscuro);
+  background: var(--turquesa-claro);
   border-radius: 8px;
   padding: 8px 14px;
   margin: 0;
@@ -179,28 +179,28 @@ td.total span {
   text-align: center;
 }
 
-.pos-1 { color: #B07D00; }
-.pos-2 { color: #5F5E5A; }
-.pos-3 { color: #7A4E00; }
+.pos-1 { color: var(--morado); }
+.pos-2 { color: var(--negro-suave); }
+.pos-3 { color: var(--turquesa-oscuro); }
 
 .nombre {
   font-size: 14px;
   font-weight: 500;
   width: 60px;
-  color: #111;
+  color: var(--negro);
 }
 
 .barra-wrapper {
   flex: 1;
   height: 10px;
-  background: #f0f0f0;
+  background: var(--gris-fondo);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .barra {
   height: 100%;
-  background: #1a73e8;
+  background: var(--turquesa);
   border-radius: 999px;
   transition: width 0.4s ease;
 }
@@ -208,7 +208,7 @@ td.total span {
 .puntos {
   font-size: 13px;
   font-weight: 600;
-  color: #333;
+  color: var(--negro-suave);
   width: 50px;
   text-align: right;
 }

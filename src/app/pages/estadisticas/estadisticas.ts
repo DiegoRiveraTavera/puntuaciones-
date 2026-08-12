@@ -29,8 +29,7 @@ export class Estadisticas {
     { nombre: 'SJN',  juegos: 30, tecnica: 40, formacion: 80, total: 0 },
   ];
 
-  colores = ['#1a73e8', '#2e7d32', '#F5A623', '#A32D2D', '#7A4E00', '#0C447C'];
-
+colores = ['#14B8A6', '#7C3AED', '#0D9488', '#5B21B6', '#111111', '#333333'];
   constructor() {
     this.puntos.forEach(e => e.total = e.juegos + e.tecnica + e.formacion);
   }
