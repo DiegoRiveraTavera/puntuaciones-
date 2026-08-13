@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { EscuadraService } from '../escuadra/escuadra';
 
 export interface WearablePayload {
@@ -11,6 +12,7 @@ export interface WearablePayload {
 
 @Injectable({ providedIn: 'root' })
 export class WearableSyncService {
+  private http = inject(HttpClient);
 
   constructor(private escuadraService: EscuadraService) {}
 
@@ -35,8 +37,15 @@ export class WearableSyncService {
   }
 
   async enviarAWearable(payload: WearablePayload): Promise<boolean> {
-    console.log('[WearableSync] Enviando payload al dispositivo:', payload);
-    await new Promise(resolve => setTimeout(resolve, 600));
-    return true;
+    try {
+      await this.http.post('/api/notificaciones/tecnica', {
+        escuadra: payload.escuadra,
+        puntos: payload.totalPuntos
+      }).toPromise();
+      return true;
+    } catch (err) {
+      console.error('[WearableSync] Error al enviar:', err);
+      return false;
+    }
   }
 }

@@ -25,6 +25,12 @@
   font-size: 13px;
 }
 
+.nav-logo-img {
+  height: 36px;   /* ajusta a tu gusto */
+  width: auto;
+  object-fit: contain;
+}
+
 .nav-tabs {
   display: flex;
   align-items: center;

@@ -64,3 +64,15 @@
   overflow: hidden;
   border: 1px solid #e0e0e0;
 }
+
+.tecnica-banner-wrapper {
+  overflow: hidden;
+}
+
+.tecnica-banner {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  background: #f4f4f4;
+  display: block;
+}

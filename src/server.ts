@@ -10,7 +10,6 @@ import { join } from 'node:path';
 import { crearIndice, sembrarDatos, buscar } from './elastic-client';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
-import { getFirestore } from 'firebase-admin/firestore';
 import { readFileSync } from 'node:fs';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
@@ -44,24 +43,14 @@ function obtenerMessaging() {
   return getMessaging();
 }
 
-function obtenerDb() {
-  asegurarFirebaseApp();
-  return getFirestore();
-}
+// Registro simple en memoria del token del reloj
+let deviceToken: string | null = null;
 
-app.post('/api/dispositivo/registrar', async (req, res) => {
+app.post('/api/dispositivo/registrar', (req, res) => {
   const { token } = req.body;
-  try {
-    await obtenerDb().collection('dispositivos').doc('reloj-principal').set({
-      token,
-      actualizado: new Date().toISOString(),
-    });
-    console.log('[FCM] Token de dispositivo registrado:', token);
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('[FCM] Error guardando token:', err);
-    res.status(500).json({ error: 'No se pudo guardar el token' });
-  }
+  deviceToken = token;
+  console.log('[FCM] Token de dispositivo registrado:', token);
+  res.json({ ok: true });
 });
 
 crearIndice()
@@ -87,12 +76,9 @@ app.post('/api/notificaciones/tecnica', async (req, res) => {
   const { escuadra, puntos } = req.body;
 
   try {
-    const doc = await obtenerDb().collection('dispositivos').doc('reloj-principal').get();
-    const token = doc.exists ? (doc.data()?.['token'] as string | undefined) : undefined;
-
-    if (token) {
+    if (deviceToken) {
       await obtenerMessaging().send({
-        token,
+        token: deviceToken,
         notification: {
           title: 'Nueva puntuación técnica',
           body: `${escuadra} va liderando con ${puntos} puntos`,

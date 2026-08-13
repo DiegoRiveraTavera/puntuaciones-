@@ -212,3 +212,16 @@ td.total span {
   width: 50px;
   text-align: right;
 }
+
+.tecnica-banner-wrapper {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tecnica-banner {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  background: #f4f4f4;
+  display: block;
+}

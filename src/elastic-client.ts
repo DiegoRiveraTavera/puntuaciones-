@@ -1,11 +1,14 @@
 import { Client } from '@elastic/elasticsearch';
 
-const cloudId = process.env['ELASTIC_CLOUD_ID'];
+/* const cloudId = process.env['ELASTIC_CLOUD_ID'];
 const apiKey = process.env['ELASTIC_API_KEY'];
 
 export const esClient = cloudId && apiKey
   ? new Client({ cloud: { id: cloudId }, auth: { apiKey } })
   : new Client({ node: process.env['ELASTIC_NODE'] || 'http://localhost:9200' });
+*/
+
+export const esClient = new Client({ node: 'http://localhost:9200' });
 
 export const INDEX = 'contenido';
 
