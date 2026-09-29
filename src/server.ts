@@ -95,6 +95,14 @@ app.post('/api/notificaciones/tecnica', async (req, res) => {
   res.json({ ok: true });
 });
 
+app.get('/api/consulta-web', (req, res) => {
+  res.json({
+    mensaje: 'Bienvenido a Puntuaciones - Escuadrón Moriah',
+    escuadras_activas: 6,
+    ultima_actualizacion: new Date().toISOString(),
+  });
+});
+
 /**
  * Serve static files from /browser
  */
