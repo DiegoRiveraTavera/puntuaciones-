@@ -159,3 +159,13 @@
   color: var(--gris);
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .navbar { flex-wrap: wrap; border-radius: 20px; padding: 8px 10px; }
+  .nav-tabs { order: 3; width: 100%; flex: none; flex-wrap: wrap; }
+  .nav-tab { padding: 8px 12px; font-size: 14px; }
+  .search-wrapper { margin-left: auto; }
+  .search-input { width: 140px; }
+  .search-input:focus { width: 170px; }
+  .search-results { width: min(300px, 85vw); }
+}

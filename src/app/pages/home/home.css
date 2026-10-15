@@ -226,3 +226,9 @@
   border-radius: 12px;
   object-fit: cover;
 }
+
+@media (max-width: 700px) {
+  .hero { flex-direction: column; padding: 1rem; text-align: center; }
+  .input-row { flex-wrap: wrap; }
+  .input-row input { flex: 1 1 100%; min-width: 0; }
+}

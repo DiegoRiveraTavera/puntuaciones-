@@ -17,7 +17,26 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-app.use(express.json());
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+    setHeaders: (res, filePath) => {
+      if (/(ngsw\.json|ngsw-worker\.js|safety-worker\.js|manifest\.webmanifest)$/.test(filePath)) {
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    },
+  }),
+);
+
+app.use('/api', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  if (req.method === 'OPTIONS') { res.sendStatus(204); return; }
+  next();
+});
 
 function asegurarFirebaseApp() {
   if (getApps().length > 0) return;
@@ -127,13 +146,15 @@ app.use((req, res, next) => {
 });
 
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, (error) => {
+  const port = Number(process.env['PORT'] || 4000);
+
+  app.listen(port, '0.0.0.0', (error) => {
     if (error) {
       throw error;
     }
 
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`Servidor escuchando en http://0.0.0.0:${port}`);
+    console.log(`Acceso local: http://localhost:${port}`);
   });
 }
 

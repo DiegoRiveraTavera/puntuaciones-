@@ -7,6 +7,8 @@ import { Lugares } from './pages/lugares/lugares';
 import { Acerca } from './pages/acerca/acerca';
 import { Estadisticas } from './pages/estadisticas/estadisticas';
 
+import { Camara } from './pages/camara/camara';
+
 export const routes: Routes = [
   { path: '',          redirectTo: 'inicio', pathMatch: 'full' },
   { path: 'inicio',    component: Home },
@@ -16,5 +18,6 @@ export const routes: Routes = [
   { path: 'lugares',   component: Lugares },
   { path: 'acerca',    component: Acerca },
   { path: 'estadisticas', component: Estadisticas },
+  { path: 'camara',    component: Camara },
   { path: '**',        redirectTo: 'inicio' },
 ];

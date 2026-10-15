@@ -1,0 +1,36 @@
+
+.camara-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #125ca1;
+}
+
+.mensaje {
+  margin-top: 20px;
+}
+
+.correcto {
+  color: #188038;
+}
+
+.error {
+  color: #c5221f;
+}

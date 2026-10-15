@@ -21,3 +21,17 @@ body {
   background: var(--blanco);
   margin: 0;
 }
+
+html, body { max-width: 100%; overflow-x: hidden; }
+img { max-width: 100%; height: auto; }
+app-navbar { display: block; }
+
+/* Las tablas anchas se desplazan dentro de su tarjeta, no en toda la página */
+.card-body { overflow-x: auto; }
+
+@media (max-width: 700px) {
+  app-navbar { padding: 8px; }
+  .container { padding: 0 0.75rem !important; margin: 1rem auto !important; }
+  .card-header, .card-body { padding: 1rem !important; }
+  .card-header h1 { font-size: 20px !important; letter-spacing: 1px !important; }
+}

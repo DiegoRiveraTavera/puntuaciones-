@@ -10,6 +10,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+        
         "build": {
           "builder": "@angular/build:application",
           "options": {
@@ -30,8 +31,11 @@
               "entry": "src/server.ts"
             },
             "security": {
-    "allowedHosts": ["192.168.100.25:4000", "localhost:4000"]
-  }
+  "allowedHosts": [
+    "localhost",
+    "192.168.100.25"
+  ]
+}
           },
           "configurations": {
             "production": {
@@ -47,7 +51,8 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -57,6 +62,17 @@
           },
           "defaultConfiguration": "production"
         },
+        
+        "build-mobile": {
+  "builder": "@angular/build:application",
+  "options": {
+    "browser": "src/main.ts",
+    "tsConfig": "tsconfig.app.json",
+    "assets": [{ "glob": "**/*", "input": "public" }],
+    "styles": ["src/styles.css"],
+    "outputPath": { "base": "dist/mobile", "browser": "" }
+  }
+},
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {

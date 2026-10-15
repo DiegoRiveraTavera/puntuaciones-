@@ -1,0 +1,22 @@
+
+<div class="camara-container">
+  <h2>Permiso de cámara</h2>
+
+  <p>
+    Esta función comprobará si puedes acceder a la cámara de tu dispositivo.
+  </p>
+
+  <button type="button" (click)="solicitarPermiso()">
+    Solicitar permiso de cámara
+  </button>
+
+  <p
+    class="mensaje"
+    [class.correcto]="estado === 'correcto'"
+    [class.error]="estado === 'error'"
+    role="status"
+    aria-live="polite"
+  >
+    {{ mensaje }}
+  </p>
+</div>
