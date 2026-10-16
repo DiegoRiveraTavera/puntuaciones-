@@ -1,0 +1,15 @@
+<div class="sesion-container">
+  @if (valido) {
+    <h2 class="ok">✅ Sesión iniciada</h2>
+    <p>Código de sesión</p>
+    <p class="codigo">{{ codigo }}</p>
+    <p>Iniciada el {{ fecha }}</p>
+    <p class="nota">Este enlace ya fue usado y no volverá a funcionar.</p>
+  } @else {
+    <h2 class="error">⛔ Enlace ya utilizado</h2>
+    <p class="codigo">{{ codigo }}</p>
+    <p class="nota">Cada enlace solo sirve una vez. Genera uno nuevo.</p>
+  }
+
+  <a class="boton" routerLink="/camara">Generar nuevo enlace</a>
+</div>

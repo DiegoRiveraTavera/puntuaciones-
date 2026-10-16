@@ -8,6 +8,7 @@ import { Acerca } from './pages/acerca/acerca';
 import { Estadisticas } from './pages/estadisticas/estadisticas';
 
 import { Camara } from './pages/camara/camara';
+import { Sesion } from './pages/sesion/sesion';
 
 export const routes: Routes = [
   { path: '',          redirectTo: 'inicio', pathMatch: 'full' },
@@ -19,5 +20,6 @@ export const routes: Routes = [
   { path: 'acerca',    component: Acerca },
   { path: 'estadisticas', component: Estadisticas },
   { path: 'camara',    component: Camara },
+  { path: 'sesion/:codigo', component: Sesion },
   { path: '**',        redirectTo: 'inicio' },
 ];

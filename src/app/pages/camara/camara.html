@@ -1,4 +1,3 @@
-
 <div class="camara-container">
   <h2>Permiso de cámara</h2>
 
@@ -19,4 +18,21 @@
   >
     {{ mensaje }}
   </p>
+
+  @if (foto) {
+    <img class="foto" [src]="foto" alt="Foto tomada con la cámara" />
+  }
+</div>
+
+<div class="camara-container">
+  <h2>Enlace de sesión</h2>
+
+  <p>Cada enlace se usa una sola vez; al volver a esta página se genera uno nuevo.</p>
+
+  <p class="enlace">{{ enlace }}</p>
+
+  <a class="boton" [routerLink]="['/sesion', codigoEnlace]">Abrir enlace</a>
+  <button type="button" (click)="copiarEnlace()">Copiar</button>
+
+  <p class="mensaje" role="status" aria-live="polite">{{ avisoEnlace }}</p>
 </div>

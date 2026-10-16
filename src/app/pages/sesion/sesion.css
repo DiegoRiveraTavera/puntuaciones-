@@ -1,0 +1,22 @@
+.sesion-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+.codigo { font-family: monospace; font-size: 20px; font-weight: bold; }
+.nota { color: #5f6368; }
+.ok { color: #188038; }
+.error { color: #c5221f; }
+.boton {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  text-decoration: none;
+}
