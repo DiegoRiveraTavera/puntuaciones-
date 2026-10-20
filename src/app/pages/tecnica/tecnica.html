@@ -56,6 +56,34 @@
       </tbody>
     </table>
 
+        <!-- Foto de la técnica de cada escuadra -->
+    <h3 class="fotos-titulo">Foto de la técnica</h3>
+    <p class="fotos-ayuda">Toma una foto de la estructura de cada escuadra al calificarla.</p>
+
+    <div class="fotos-grid">
+      <div class="foto-tile" *ngFor="let escuadra of escuadras">
+        <div class="foto-nombre">
+          <div class="avatar">{{ escuadra.slice(0,2) }}</div>
+          {{ escuadra }}
+        </div>
+
+        <div class="foto-marco">
+          <img *ngIf="fotos()[escuadra]" [src]="fotos()[escuadra]" [alt]="'Técnica de ' + escuadra" />
+          <span class="foto-vacia" *ngIf="!fotos()[escuadra]">Sin foto</span>
+        </div>
+
+        <div class="foto-botones">
+          <button type="button" class="btn-foto" (click)="tomarFoto(escuadra)">
+            📷 {{ fotos()[escuadra] ? 'Repetir foto' : 'Tomar foto' }}
+          </button>
+          <button type="button" class="btn-foto-quitar" *ngIf="fotos()[escuadra]"
+            [attr.aria-label]="'Quitar foto de ' + escuadra"
+            (click)="quitarFoto(escuadra)">✕</button>
+        </div>
+      </div>
+    </div>
+    <p class="msg-error-foto" *ngIf="errorFoto()">{{ errorFoto() }}</p>
+
     <div class="acciones">
       <button class="btn-guardar" (click)="guardar()">💾 Guardar calificaciones</button>
       <p class="msg-guardado" *ngIf="guardado()">✅ Calificaciones guardadas</p>

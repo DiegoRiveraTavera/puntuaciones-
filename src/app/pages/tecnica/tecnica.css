@@ -225,3 +225,102 @@ td.total span {
   background: #f4f4f4;
   display: block;
 }
+
+/* Foto de la técnica por escuadra */
+.fotos-titulo {
+  margin: 1.4rem 0 0.2rem;
+  font-size: 16px;
+}
+
+.fotos-ayuda {
+  margin: 0 0 0.8rem;
+  font-size: 13px;
+  color: var(--gris);
+}
+
+.fotos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.foto-tile {
+  border: 1px solid var(--gris-claro);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.foto-nombre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.foto-marco {
+  aspect-ratio: 4 / 3;
+  background: var(--gris-fondo);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* se ve la foto completa, sin recortar */
+  display: block;
+}
+
+.foto-vacia {
+  font-size: 12px;
+  color: var(--gris);
+}
+
+.foto-botones {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-foto {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--morado);
+  background: var(--morado-claro);
+  color: var(--morado-oscuro);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-foto:hover {
+  background: var(--morado);
+  color: white;
+}
+
+.btn-foto-quitar {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--gris-claro);
+  background: white;
+  color: var(--gris);
+  cursor: pointer;
+}
+
+.btn-foto-quitar:hover { background: var(--gris-fondo); }
+
+.msg-error-foto {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #b91c1c;
+  background: #fee2e2;
+  border-radius: 8px;
+  padding: 8px 14px;
+}

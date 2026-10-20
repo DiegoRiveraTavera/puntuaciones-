@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 interface CalificacionTecnica {
   fuerza: number;
@@ -34,6 +35,9 @@ export class Tecnica {
 
   calificaciones: { [escuadra: string]: CalificacionTecnica } = {};
   guardado = signal(false);
+    // Foto de la técnica de cada escuadra (data URL). Va en un signal porque la app es zoneless.
+  fotos = signal<Record<string, string>>({});
+  errorFoto = signal('');
 
   constructor(private http: HttpClient) {
     this.escuadras.forEach(e => {
@@ -75,4 +79,38 @@ export class Tecnica {
       }).subscribe();
     }
   }
+
+    // Abre la cámara (en el celular) y guarda la foto de la técnica de esa escuadra
+  async tomarFoto(escuadra: string): Promise<void> {
+    this.errorFoto.set('');
+    try {
+      const imagen = await Camera.getPhoto({
+        source: CameraSource.Camera,
+        resultType: CameraResultType.DataUrl,
+        quality: 70,
+        width: 1280,
+        correctOrientation: true,
+        webUseInput: true   // en el navegador usa el selector de archivos/cámara del sistema
+      });
+      if (imagen.dataUrl) {
+        this.fotos.update(f => ({ ...f, [escuadra]: imagen.dataUrl! }));
+      }
+    } catch (error: any) {
+      const msg = String(error?.message ?? error).toLowerCase();
+      if (msg.includes('cancel')) return;   // cerró la cámara sin tomar foto
+      this.errorFoto.set(
+        msg.includes('denied')
+          ? 'Permiso de cámara denegado. Actívalo en los ajustes del celular.'
+          : 'No se pudo abrir la cámara.'
+      );
+    }
+  }
+
+  quitarFoto(escuadra: string): void {
+    this.fotos.update(f => {
+      const { [escuadra]: _quitada, ...resto } = f;
+      return resto;
+    });
+  }
+  
 }
