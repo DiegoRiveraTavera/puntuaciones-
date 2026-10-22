@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { Home } from './pages/home/home';
 import { Formacion } from './pages/formacion/formacion';
 import { Juegos} from './pages/juegos/juegos';
@@ -10,8 +11,12 @@ import { Estadisticas } from './pages/estadisticas/estadisticas';
 import { Camara } from './pages/camara/camara';
 import { Sesion } from './pages/sesion/sesion';
 
+import { Login } from './pages/login/login';
+
+
 export const routes: Routes = [
-  { path: '',          redirectTo: 'inicio', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: Login },
   { path: 'inicio',    component: Home },
   { path: 'formacion', component: Formacion },
   { path: 'juegos',    component: Juegos },
@@ -21,5 +26,5 @@ export const routes: Routes = [
   { path: 'estadisticas', component: Estadisticas },
   { path: 'camara',    component: Camara },
   { path: 'sesion/:codigo', component: Sesion },
-  { path: '**',        redirectTo: 'inicio' },
+  { path: '**', redirectTo: 'inicio' },
 ];

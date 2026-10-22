@@ -22,7 +22,7 @@ export class NavbarComponent {
     { label: 'Lugares',   route: '/lugares' },
     { label: 'Acerca',    route: '/acerca' },
     { label: 'Estadísticas', route: '/estadisticas' },
-    { label: 'Cámara',    route: '/camara' },
+    { label: 'Sesion',    route: '/camara' },
   ];
 
   activeTab = 'Inicio';
