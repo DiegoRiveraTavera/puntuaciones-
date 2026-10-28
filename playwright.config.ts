@@ -11,11 +11,15 @@ export default defineConfig({
   retries: 0,
   timeout: 90_000,                 // tiempo máximo por prueba
   expect: { timeout: 15_000 },     // cada verificación espera hasta 15 s
-  reporter: [['html', { open: 'never' }], ['list']],
+  reporter: [
+    ['html', { open: 'never' }],
+    ['list'],
+    ['./e2e/reporte-pdf.ts'],   // genera reportes/reporte-pruebas-<fecha>.pdf
+  ],
   use: {
     baseURL: URL_BASE,
     navigationTimeout: 60_000,
-    screenshot: 'on',
+    screenshot: { mode: 'on', fullPage: true },   // captura de la página completa
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     serviceWorkers: 'block',

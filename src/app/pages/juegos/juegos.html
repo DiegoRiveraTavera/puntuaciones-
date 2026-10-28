@@ -94,6 +94,7 @@
     <div class="acciones">
       <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
       <p class="msg-guardado" *ngIf="guardado()">✅ Guardado correctamente</p>
+      <p class="msg-error-guardado" *ngIf="errorGuardado()">⚠️ No se pudo guardar en este dispositivo</p>
     </div>
   </div>
 

@@ -1,0 +1,15 @@
+/* Configuración de pruebas de la práctica Pirámide de pruebas.
+   Compila solo las pruebas unitarias (*.logic.spec.ts) y de integración (*.int.spec.ts),
+   porque los *.spec.ts generados por Angular CLI tienen errores de compilación. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/piramide",
+    "types": ["jasmine"]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.logic.spec.ts",
+    "src/**/*.int.spec.ts"
+  ]
+}

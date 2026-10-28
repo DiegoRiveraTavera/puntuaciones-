@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { iniciarSesionLocal, cerrarSesionLocal } from '../../services/sesion/sesion';
 
 // Límites definidos para las entradas
 const MAX_USUARIO = 20;
@@ -65,6 +66,7 @@ export class Login {
     ) {
       this.acceso = true;
       this.password = '';
+      iniciarSesionLocal(usuario); // registra la sesión para el guard (REQ-14)
 
       // Ir directamente a la página de Inicio
       this.router.navigate(['/inicio']);
@@ -79,6 +81,7 @@ export class Login {
   }
 
   cerrarSesion(): void {
+    cerrarSesionLocal();
     this.acceso = false;
     this.usuario = '';
     this.password = '';

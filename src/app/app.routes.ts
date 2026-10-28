@@ -12,19 +12,26 @@ import { Camara } from './pages/camara/camara';
 import { Sesion } from './pages/sesion/sesion';
 
 import { Login } from './pages/login/login';
+import { sesionGuard } from './services/sesion/sesion';
 
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
-  { path: 'inicio',    component: Home },
-  { path: 'formacion', component: Formacion },
-  { path: 'juegos',    component: Juegos },
-  { path: 'tecnica',   component: Tecnica },
-  { path: 'lugares',   component: Lugares },
-  { path: 'acerca',    component: Acerca },
-  { path: 'estadisticas', component: Estadisticas },
-  { path: 'camara',    component: Camara },
   { path: 'sesion/:codigo', component: Sesion },
+
+  // Pantallas internas: solo con sesión iniciada (REQ-14)
+  { path: 'inicio',       component: Home,         canActivate: [sesionGuard] },
+  { path: 'formacion',    component: Formacion,    canActivate: [sesionGuard] },
+  { path: 'juegos',       component: Juegos,       canActivate: [sesionGuard] },
+  { path: 'tecnica',      component: Tecnica,      canActivate: [sesionGuard] },
+  { path: 'lugares',      component: Lugares,      canActivate: [sesionGuard] },
+  { path: 'acerca',       component: Acerca,       canActivate: [sesionGuard] },
+  { path: 'estadisticas', component: Estadisticas, canActivate: [sesionGuard] },
+  { path: 'camara',       component: Camara,       canActivate: [sesionGuard] },
+
+  // Ruta anterior de "Acerca de" que usaba el buscador (REQ-15)
+  { path: 'acerca-de', redirectTo: 'acerca' },
+
   { path: '**', redirectTo: 'inicio' },
 ];

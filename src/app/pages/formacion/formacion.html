@@ -151,6 +151,7 @@
         </div>
         <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
         <p class="msg-guardado" *ngIf="guardado()">✅ Guardado</p>
+        <p class="msg-error-guardado" *ngIf="errorGuardado()">⚠️ No se pudo guardar</p>
       </div>
 
     </div>

@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
+import { leerDato, guardarDato } from '../../services/almacen/almacen';
+
+const CLAVE = 'formacion';
 
 interface Miembro {
   nombre: string;
@@ -31,12 +34,19 @@ interface DatosFormacion {
   templateUrl: './formacion.html',
   styleUrl: './formacion.css'
 })
-export class Formacion {
+export class Formacion implements OnInit {
   escuadrasDisponibles = ['RRMS', 'ANK', 'ATL', 'MNS', 'SMN', 'SJN'];
   escuadraSeleccionada = '';
   guardado = signal(false);
+  errorGuardado = signal(false);
 
   datos: { [escuadra: string]: DatosFormacion } = {};
+
+  // Al entrar se recupera lo guardado en el dispositivo
+  ngOnInit() {
+    const guardados = leerDato<{ [escuadra: string]: DatosFormacion }>(CLAVE, {});
+    if (guardados && typeof guardados === 'object') this.datos = guardados;
+  }
 
   get datosActuales(): DatosFormacion | null {
     return this.escuadraSeleccionada
@@ -98,7 +108,9 @@ export class Formacion {
   }
 
   guardar() {
-    this.guardado.set(true);
+    const ok = guardarDato(CLAVE, this.datos);
+    this.guardado.set(ok);
+    this.errorGuardado.set(!ok);
     setTimeout(() => this.guardado.set(false), 3000);
   }
 }

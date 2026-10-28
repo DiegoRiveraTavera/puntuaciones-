@@ -44,7 +44,7 @@ export async function sembrarDatos() {
     { title: 'Técnica',      description: 'Técnicas registradas y calificadas',      route: '/tecnica',      type: 'página' },
     { title: 'Lugares',      description: 'Ranking y podio de escuadras',            route: '/lugares',      type: 'página' },
     { title: 'Estadísticas', description: 'Gráficas y resumen de desempeño',         route: '/estadisticas', type: 'página' },
-    { title: 'Acerca de',    description: 'Quiénes somos y ubicación',               route: '/acerca-de',    type: 'página' },
+    { title: 'Acerca de',    description: 'Quiénes somos y ubicación',               route: '/acerca',       type: 'página' },
   ];
 
   const operations = docs.flatMap(doc => [

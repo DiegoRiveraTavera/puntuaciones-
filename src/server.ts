@@ -30,6 +30,9 @@ app.use(
   }),
 );
 
+// REQ-18: sin este middleware req.body llegaba vacío y la API respondía 500
+app.use('/api', express.json());
+
 app.use('/api', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -66,7 +69,11 @@ function obtenerMessaging() {
 let deviceToken: string | null = null;
 
 app.post('/api/dispositivo/registrar', (req, res) => {
-  const { token } = req.body;
+  const { token } = req.body ?? {};
+  if (typeof token !== 'string' || !token) {
+    res.status(400).json({ error: 'Se requiere el token del dispositivo' });
+    return;
+  }
   deviceToken = token;
   console.log('[FCM] Token de dispositivo registrado:', token);
   res.json({ ok: true });
@@ -92,7 +99,11 @@ app.get('/api/buscar', async (req, res) => {
 });
 
 app.post('/api/notificaciones/tecnica', async (req, res) => {
-  const { escuadra, puntos } = req.body;
+  const { escuadra, puntos } = req.body ?? {};
+  if (typeof escuadra !== 'string' || !escuadra.trim() || typeof puntos !== 'number') {
+    res.status(400).json({ error: 'Se requieren escuadra (texto) y puntos (número)' });
+    return;
+  }
 
   try {
     if (deviceToken) {

@@ -228,3 +228,8 @@ td.centro { text-align: center; }
 @media (max-width: 700px) {
   .fila-inferior { grid-template-columns: 1fr; }
 }
+.msg-error-guardado {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #b3261e;
+}

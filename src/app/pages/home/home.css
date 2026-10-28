@@ -232,3 +232,11 @@
   .input-row { flex-wrap: wrap; }
   .input-row input { flex: 1 1 100%; min-width: 0; }
 }
+.msg-error-guardado {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #b3261e;
+  background: #fdecea;
+  border-radius: 8px;
+  padding: 10px 14px;
+}

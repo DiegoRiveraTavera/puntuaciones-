@@ -169,3 +169,6 @@
   .search-input:focus { width: 170px; }
   .search-results { width: min(300px, 85vw); }
 }
+.search-error {
+  color: #b3261e;
+}

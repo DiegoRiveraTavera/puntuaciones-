@@ -25,10 +25,10 @@
     <button class="search-btn" (click)="toggleSearch()">🔍</button>
 
     <!-- Resultados -->
-    <div class="search-results" *ngIf="searchOpen && results.length > 0">
+    <div class="search-results" *ngIf="searchOpen && results().length > 0">
       <div
         class="search-item"
-        *ngFor="let r of results"
+        *ngFor="let r of results()"
         (click)="goTo(r)">
         <span class="result-type">{{ r.type }}</span>
         <span class="result-title">{{ r.title }}</span>
@@ -36,9 +36,19 @@
       </div>
     </div>
 
-    <!-- Sin resultados -->
-    <div class="search-results" *ngIf="searchOpen && searchQuery.length >= 2 && results.length === 0">
+    <!-- Buscando -->
+    <div class="search-results" *ngIf="searchOpen && estado() === 'buscando' && results().length === 0">
+      <div class="search-empty">Buscando…</div>
+    </div>
+
+    <!-- Sin resultados (solo cuando el servidor respondió bien y no hubo coincidencias) -->
+    <div class="search-results" *ngIf="searchOpen && estado() === 'listo' && results().length === 0">
       <div class="search-empty">Sin resultados para "{{ searchQuery }}"</div>
+    </div>
+
+    <!-- Error del servidor (REQ-17) -->
+    <div class="search-results" *ngIf="searchOpen && estado() === 'error'" role="alert">
+      <div class="search-empty search-error">No se pudo buscar. Revisa tu conexión e inténtalo de nuevo.</div>
     </div>
   </div>
 

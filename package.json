@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:piramide": "ng test --watch=false --ts-config=tsconfig.piramide.json --include=src/**/*.logic.spec.ts --include=src/**/*.int.spec.ts --browsers=ChromeHeadless",
     "serve:ssr:puntuaciones": "node dist/puntuaciones/server/server.mjs",
     "build:mobile": "ng run puntuaciones:build-mobile",
     "cap:sync": "npm run build:mobile && npx cap sync android"
@@ -49,6 +50,7 @@
     "@angular/cli": "^20.3.16",
     "@angular/compiler-cli": "^20.3.0",
     "@capacitor/cli": "^8.5.3",
+    "@playwright/test": "^1.64.1",
     "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",

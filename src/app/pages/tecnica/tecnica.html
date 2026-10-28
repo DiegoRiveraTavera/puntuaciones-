@@ -28,27 +28,32 @@
           </td>
           <td>
             <input type="number" min="1" max="10"
-              [(ngModel)]="calificaciones[escuadra].fuerza"
+              #cFuerza [ngModel]="calificaciones[escuadra].fuerza"
+              (ngModelChange)="fijar(escuadra, 'fuerza', $event, cFuerza)"
               [class]="getColor(calificaciones[escuadra].fuerza)" />
           </td>
           <td>
             <input type="number" min="1" max="10"
-              [(ngModel)]="calificaciones[escuadra].utilidad"
+              #cUtilidad [ngModel]="calificaciones[escuadra].utilidad"
+              (ngModelChange)="fijar(escuadra, 'utilidad', $event, cUtilidad)"
               [class]="getColor(calificaciones[escuadra].utilidad)" />
           </td>
           <td>
             <input type="number" min="1" max="10"
-              [(ngModel)]="calificaciones[escuadra].firmeza"
+              #cFirmeza [ngModel]="calificaciones[escuadra].firmeza"
+              (ngModelChange)="fijar(escuadra, 'firmeza', $event, cFirmeza)"
               [class]="getColor(calificaciones[escuadra].firmeza)" />
           </td>
           <td>
             <input type="number" min="1" max="10"
-              [(ngModel)]="calificaciones[escuadra].estabilidad"
+              #cEstabilidad [ngModel]="calificaciones[escuadra].estabilidad"
+              (ngModelChange)="fijar(escuadra, 'estabilidad', $event, cEstabilidad)"
               [class]="getColor(calificaciones[escuadra].estabilidad)" />
           </td>
           <td>
             <input type="number" min="1" max="10"
-              [(ngModel)]="calificaciones[escuadra].originalidad"
+              #cOriginalidad [ngModel]="calificaciones[escuadra].originalidad"
+              (ngModelChange)="fijar(escuadra, 'originalidad', $event, cOriginalidad)"
               [class]="getColor(calificaciones[escuadra].originalidad)" />
           </td>
           <td class="total">{{ getTotal(escuadra) }}<span>/50</span></td>
@@ -87,6 +92,7 @@
     <div class="acciones">
       <button class="btn-guardar" (click)="guardar()">💾 Guardar calificaciones</button>
       <p class="msg-guardado" *ngIf="guardado()">✅ Calificaciones guardadas</p>
+      <p class="msg-error-foto" *ngIf="errorNotificacion()">⚠️ {{ errorNotificacion() }}</p>
     </div>
   </div>
 

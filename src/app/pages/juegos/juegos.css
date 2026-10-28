@@ -336,3 +336,8 @@
 }
 
 .puntos { font-size: 13px; font-weight: 600; color: var(--negro-suave); width: 60px; text-align: right; }
+.msg-error-guardado {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #b3261e;
+}

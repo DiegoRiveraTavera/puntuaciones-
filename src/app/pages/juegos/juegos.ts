@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
+import { leerDato, guardarDato } from '../../services/almacen/almacen';
+
+const CLAVE = 'juegos';
 
 interface Enfrentamiento {
   escuadras: string[];
@@ -28,17 +31,27 @@ interface Juego {
   templateUrl: './juegos.html',
   styleUrl: './juegos.css'
 })
-export class Juegos {
+export class Juegos implements OnInit {
   // Escuadras disponibles (hardcodeadas por ahora)
   escuadrasDisponibles = ['RRMS', 'ANK', 'ATL', 'MNS', 'SMN', 'SJN'];
 
   juegos: Juego[] = [];
   juegoActivo: Juego | null = null;
   guardado = signal(false);
+  errorGuardado = signal(false);
 
   // Form nuevo juego
   nuevoNombre = '';
   nuevoValor = 0;
+
+  // Al entrar se recuperan los juegos guardados en el dispositivo
+  ngOnInit() {
+    const guardados = leerDato<Juego[]>(CLAVE, []);
+    if (Array.isArray(guardados) && guardados.length > 0) {
+      this.juegos = guardados;
+      this.juegoActivo = guardados[0];
+    }
+  }
 
   agregarJuego() {
     if (!this.nuevoNombre.trim() || this.nuevoValor <= 0) return;
@@ -74,8 +87,11 @@ export class Juegos {
 
   quitarEscuadraDelEnfrentamiento(enf: Enfrentamiento, index: number) {
     if (enf.escuadras.length <= 2) return;
+    // REQ-12: se guarda el nombre ANTES de quitarla; antes se comparaba después del
+    // splice, con la escuadra que ocupaba ese lugar, y la ganadora conservaba sus puntos
+    const quitada = enf.escuadras[index];
     enf.escuadras.splice(index, 1);
-    if (enf.ganador === enf.escuadras[index]) enf.ganador = '';
+    if (quitada && enf.ganador === quitada) enf.ganador = '';
   }
 
   eliminarEnfrentamiento(rol: Rol, index: number) {
@@ -107,7 +123,10 @@ export class Juegos {
   }
 
   guardar() {
-    this.guardado.set(true);
+    // Ahora sí se guarda en el dispositivo; solo se confirma si se logró
+    const ok = guardarDato(CLAVE, this.juegos);
+    this.guardado.set(ok);
+    this.errorGuardado.set(!ok);
     setTimeout(() => this.guardado.set(false), 3000);
   }
 

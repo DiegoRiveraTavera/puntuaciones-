@@ -14,6 +14,11 @@ interface CalificacionTecnica {
   originalidad: number;
 }
 
+type Criterio = keyof CalificacionTecnica;
+
+const MIN_CALIFICACION = 1;
+const MAX_CALIFICACION = 10;
+
 interface EscuadraCalificada {
   nombre: string;
   calificacion: CalificacionTecnica;
@@ -38,6 +43,7 @@ export class Tecnica {
     // Foto de la técnica de cada escuadra (data URL). Va en un signal porque la app es zoneless.
   fotos = signal<Record<string, string>>({});
   errorFoto = signal('');
+  errorNotificacion = signal('');
 
   constructor(private http: HttpClient) {
     this.escuadras.forEach(e => {
@@ -46,6 +52,24 @@ export class Tecnica {
         estabilidad: 0, originalidad: 0
       };
     });
+  }
+
+  /**
+   * REQ-09: cada criterio solo acepta enteros del 1 al 10. Un valor mayor se ajusta a 10,
+   * uno menor a 1, y un campo vacío cuenta como "sin calificar" (0).
+   */
+  ajustar(valor: unknown): number {
+    if (valor === null || valor === undefined || valor === '') return 0;
+    const n = Math.round(Number(valor));
+    if (!Number.isFinite(n)) return 0;
+    return Math.min(MAX_CALIFICACION, Math.max(MIN_CALIFICACION, n));
+  }
+
+  fijar(escuadra: string, criterio: Criterio, valor: unknown, campo: HTMLInputElement): void {
+    const ajustado = this.ajustar(valor);
+    this.calificaciones[escuadra][criterio] = ajustado;
+    const texto = ajustado === 0 ? '' : String(ajustado);
+    if (campo.value !== texto) campo.value = texto; // el campo muestra el valor corregido
   }
 
   getTotal(escuadra: string): number {
@@ -67,17 +91,32 @@ export class Tecnica {
   }
 
   guardar() {
-    this.guardado.set(true);
-    setTimeout(() => this.guardado.set(false), 3000);
+    this.errorNotificacion.set('');
 
     // Notificamos al reloj con la escuadra líder de esta ronda
     const lider = this.getRanking()[0];
-    if (lider && lider.total > 0) {
-      this.http.post('/api/notificaciones/tecnica', {
-        escuadra: lider.nombre,
-        puntos: lider.total
-      }).subscribe();
+    if (!lider || lider.total === 0) {
+      this.mostrarGuardado();
+      return;
     }
+
+    // Antes el mensaje "guardadas" salía siempre, aunque el servidor fallara,
+    // y el error quedaba sin manejar. Ahora se confirma solo si el servidor responde bien.
+    this.http.post('/api/notificaciones/tecnica', {
+      escuadra: lider.nombre,
+      puntos: lider.total
+    }).subscribe({
+      next: () => this.mostrarGuardado(),
+      error: () => {
+        this.guardado.set(false);
+        this.errorNotificacion.set('No se pudo notificar al reloj. Revisa la conexión e inténtalo de nuevo.');
+      },
+    });
+  }
+
+  private mostrarGuardado() {
+    this.guardado.set(true);
+    setTimeout(() => this.guardado.set(false), 3000);
   }
 
     // Abre la cámara (en el celular) y guarda la foto de la técnica de esa escuadra
