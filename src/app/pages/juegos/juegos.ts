@@ -3,26 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
-import { leerDato, guardarDato } from '../../services/almacen/almacen';
-
-const CLAVE = 'juegos';
-
-interface Enfrentamiento {
-  escuadras: string[];
-  ganador: string;
-}
-
-interface Rol {
-  numero: number;
-  enfrentamientos: Enfrentamiento[];
-}
-
-interface Juego {
-  id: number;
-  nombre: string;
-  valor: number;
-  roles: Rol[];
-}
+import { Enfrentamiento, Juego, JuegosRepositorio, Rol } from '../../services/juegos/juegos-repositorio';
+import { hoyLocal } from '../../services/datos/datos';
+import { mensajeError } from '../../services/supabase/supabase';
 
 @Component({
   selector: 'app-juegos',
@@ -32,24 +15,42 @@ interface Juego {
   styleUrl: './juegos.css'
 })
 export class Juegos implements OnInit {
-  // Escuadras disponibles (hardcodeadas por ahora)
-  escuadrasDisponibles = ['RRMS', 'ANK', 'ATL', 'MNS', 'SMN', 'SJN'];
+  // Escuadras que se pueden elegir: las registradas en Inicio para hoy (se cargan de la base)
+  escuadrasDisponibles: string[] = [];
+  fecha = hoyLocal();
 
   juegos: Juego[] = [];
   juegoActivo: Juego | null = null;
+  // Signals: la app es zoneless y estos valores cambian cuando responde el servidor
   guardado = signal(false);
-  errorGuardado = signal(false);
+  errorGuardado = signal('');
+  cargando = signal(false);
+  guardando = signal(false);
 
   // Form nuevo juego
   nuevoNombre = '';
   nuevoValor = 0;
 
-  // Al entrar se recuperan los juegos guardados en el dispositivo
+  // El repositorio se inyecta; con `new Juegos()` (pruebas unitarias) se usa uno nuevo
+  constructor(private repo: JuegosRepositorio = new JuegosRepositorio()) {}
+
+  // Al entrar se cargan desde la base de datos los juegos del día
   ngOnInit() {
-    const guardados = leerDato<Juego[]>(CLAVE, []);
-    if (Array.isArray(guardados) && guardados.length > 0) {
-      this.juegos = guardados;
-      this.juegoActivo = guardados[0];
+    this.cargar();
+  }
+
+  async cargar() {
+    this.cargando.set(true);
+    this.errorGuardado.set('');
+    try {
+      const datos = await this.repo.cargar(this.fecha);
+      this.escuadrasDisponibles = datos.escuadras;
+      this.juegos = datos.juegos;
+      this.juegoActivo = datos.juegos[0] ?? null;
+    } catch (e) {
+      this.errorGuardado.set(mensajeError(e));
+    } finally {
+      this.cargando.set(false);
     }
   }
 
@@ -116,18 +117,37 @@ export class Juegos implements OnInit {
   }
 
   getResumen(): { nombre: string; puntos: number }[] {
-    return this.escuadrasDisponibles
+    // Se cuentan las escuadras de la lista y también cualquier ganadora que no esté en ella
+    const ganadoras = this.juegos.flatMap(j => j.roles.flatMap(r => r.enfrentamientos.map(e => e.ganador)));
+    const nombres = [...new Set([...this.escuadrasDisponibles, ...ganadoras.filter(Boolean)])];
+    return nombres
       .map(e => ({ nombre: e, puntos: this.getPuntosEscuadra(e) }))
       .filter(e => e.puntos > 0)
       .sort((a, b) => b.puntos - a.puntos);
   }
 
-  guardar() {
-    // Ahora sí se guarda en el dispositivo; solo se confirma si se logró
-    const ok = guardarDato(CLAVE, this.juegos);
-    this.guardado.set(ok);
-    this.errorGuardado.set(!ok);
-    setTimeout(() => this.guardado.set(false), 3000);
+  async guardar() {
+    if (this.guardando()) return;
+    this.errorGuardado.set('');
+    this.guardado.set(false);
+
+    // Un ganador debe ser una de las escuadras del enfrentamiento
+    for (const j of this.juegos) for (const r of j.roles) for (const e of r.enfrentamientos) {
+      if (e.ganador && !e.escuadras.includes(e.ganador)) e.ganador = '';
+    }
+
+    this.guardando.set(true);
+    try {
+      // Se guarda en Supabase; el mensaje de éxito solo sale si el servidor confirmó
+      const ids = await this.repo.guardar(this.fecha, this.juegos);
+      this.juegos.forEach(j => { const id = ids.get(j.id); if (id !== undefined) j.dbId = id; });
+      this.guardado.set(true);
+      setTimeout(() => this.guardado.set(false), 3000);
+    } catch (e) {
+      this.errorGuardado.set(mensajeError(e));
+    } finally {
+      this.guardando.set(false);
+    }
   }
 
   trackByIndex(index: number) { return index; }

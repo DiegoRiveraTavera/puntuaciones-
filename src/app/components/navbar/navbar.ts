@@ -6,6 +6,7 @@ import { Subject, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchService, SearchResult } from '../../services/search/search';
+import { cerrarSesion } from '../../services/sesion/sesion';
 
 type EstadoBusqueda = 'inactivo' | 'buscando' | 'listo' | 'error';
 
@@ -83,6 +84,12 @@ export class NavbarComponent {
 
   onSearch() {
     this.consultas.next(this.searchQuery);
+  }
+
+  // Cierra la sesión de Supabase y regresa al login (Práctica 10)
+  async salir() {
+    await cerrarSesion();
+    this.router.navigate(['/login']);
   }
 
   goTo(result: SearchResult) {

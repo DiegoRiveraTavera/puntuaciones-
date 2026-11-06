@@ -8,6 +8,9 @@
     <p class="subtitulo">Agrega juegos, define roles y registra los ganadores de cada enfrentamiento</p>
   </div>
 
+  <p class="msg-cargando" *ngIf="cargando()">Cargando juegos…</p>
+  <p class="msg-error-guardado" role="alert" *ngIf="errorGuardado() && !juegoActivo">⚠️ {{ errorGuardado() }}</p>
+
   <!-- Agregar juego -->
   <div class="card-body">
     <h3>Agregar juego</h3>
@@ -92,9 +95,11 @@
     </div>
 
     <div class="acciones">
-      <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
+      <button class="btn-guardar" (click)="guardar()" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : '💾 Guardar' }}
+      </button>
       <p class="msg-guardado" *ngIf="guardado()">✅ Guardado correctamente</p>
-      <p class="msg-error-guardado" *ngIf="errorGuardado()">⚠️ No se pudo guardar en este dispositivo</p>
+      <p class="msg-error-guardado" role="alert" *ngIf="errorGuardado()">⚠️ {{ errorGuardado() }}</p>
     </div>
   </div>
 

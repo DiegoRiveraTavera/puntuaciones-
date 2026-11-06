@@ -6,7 +6,14 @@
   <div class="card-header">
     <h1>🏆 Lugares</h1>
     <p class="subtitulo">Ranking final basado en Juegos + Técnica + Formación</p>
+    <p class="subtitulo fecha-ranking" *ngIf="fecha()">Sesión del {{ fechaTexto() }}</p>
   </div>
+
+  <p class="msg-estado" *ngIf="cargando()">Cargando ranking…</p>
+  <p class="msg-estado error" role="alert" *ngIf="error()">⚠️ {{ error() }}</p>
+  <p class="msg-estado" *ngIf="!cargando() && !error() && puntos.length === 0">
+    Todavía no hay puntos registrados. Captura Juegos, Técnica o Formación y vuelve aquí.
+  </p>
 
   <!-- Podio top 3 -->
   <div class="podio-wrapper">
@@ -34,7 +41,7 @@
   </div>
 
   <!-- Tabla completa -->
-  <div class="card-body">
+  <div class="card-body" *ngIf="puntos.length > 0">
     <h3>Clasificación completa</h3>
     <table class="tabla-lugares">
       <thead>
@@ -81,7 +88,7 @@
   </div>
 
   <!-- Resumen de puntos por sección -->
-  <div class="fila-resumen">
+  <div class="fila-resumen" *ngIf="puntos.length > 0">
   <div class="resumen-card">
     <div class="resumen-icono">🎮</div>
     <div class="resumen-label">Juegos</div>

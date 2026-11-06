@@ -207,3 +207,9 @@ td.lugar { font-size: 20px; text-align: center; width: 48px; }
   .fila-resumen { grid-template-columns: 1fr; }
   .podio-wrapper { gap: 6px; }
 }
+.msg-estado {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #555;
+}
+.msg-estado.error { color: #b3261e; }

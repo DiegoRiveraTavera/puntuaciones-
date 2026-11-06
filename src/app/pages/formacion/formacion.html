@@ -10,7 +10,9 @@
   <!-- Selector de escuadra -->
   <div class="card-body">
     <h3>Seleccionar escuadra</h3>
-    <select (change)="seleccionar($any($event.target).value)">
+    <p class="msg-cargando" *ngIf="cargando()">Cargando…</p>
+    <p class="msg-error-guardado" role="alert" *ngIf="errorGuardado() && !datosActuales">⚠️ {{ errorGuardado() }}</p>
+    <select [value]="escuadraSeleccionada" (change)="seleccionar($any($event.target).value)" [disabled]="cargando()">
       <option value="">-- Elige una escuadra --</option>
       <option *ngFor="let e of escuadrasDisponibles" [value]="e">{{ e }}</option>
     </select>
@@ -149,9 +151,11 @@
             <span>{{ getPuntosExtras() }}</span>
           </div>
         </div>
-        <button class="btn-guardar" (click)="guardar()">💾 Guardar</button>
+        <button class="btn-guardar" (click)="guardar()" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando…' : '💾 Guardar' }}
+        </button>
         <p class="msg-guardado" *ngIf="guardado()">✅ Guardado</p>
-        <p class="msg-error-guardado" *ngIf="errorGuardado()">⚠️ No se pudo guardar</p>
+        <p class="msg-error-guardado" role="alert" *ngIf="errorGuardado()">⚠️ {{ errorGuardado() }}</p>
       </div>
 
     </div>

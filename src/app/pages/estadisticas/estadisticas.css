@@ -114,3 +114,9 @@
   font-weight: 600;
   color: #555;
 }
+.msg-estado {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #555;
+}
+.msg-estado.error { color: #b3261e; }

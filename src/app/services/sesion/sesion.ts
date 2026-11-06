@@ -1,43 +1,68 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { supabase } from '../supabase/supabase';
 
 /**
- * Control de sesión.
+ * Control de sesión con Supabase Authentication (Práctica 10).
  *
- * Corrige REQ-14: antes cualquier pantalla interna se abría escribiendo su URL
- * sin iniciar sesión. Ahora el login registra la sesión y el guard `sesionGuard`
- * protege las rutas internas.
- *
- * La sesión vive en sessionStorage: dura mientras la pestaña o la app estén
- * abiertas y se borra al cerrarlas.
+ * Antes el login comparaba contra credenciales escritas en el código. Ahora:
+ *  - las cuentas de jefatura se crean en Supabase → Authentication → Users;
+ *  - la contraseña la verifica el servidor de Supabase, nunca la app;
+ *  - además de iniciar sesión, la cuenta debe tener un perfil de jefatura activo;
+ *  - el guard `sesionGuard` protege todas las pantallas internas.
  */
 
-const CLAVE_SESION = 'puntuaciones:sesion';
+export type ResultadoLogin = { ok: true } | { ok: false; error: string };
 
-export function iniciarSesionLocal(usuario: string): void {
+export async function iniciarSesion(correo: string, password: string): Promise<ResultadoLogin> {
+  const sb = supabase();
+  let respuesta;
   try {
-    sessionStorage.setItem(CLAVE_SESION, JSON.stringify({ usuario, inicio: Date.now() }));
+    respuesta = await sb.auth.signInWithPassword({ email: correo, password });
   } catch {
-    /* sin almacenamiento disponible: la sesión no se conserva */
+    return { ok: false, error: 'No se pudo conectar con el servidor. Revisa tu conexión.' };
+  }
+
+  const { data, error } = respuesta;
+  if (error || !data.user) {
+    if (error?.status === 0 || /fetch|network/i.test(error?.message ?? '')) {
+      return { ok: false, error: 'No se pudo conectar con el servidor. Revisa tu conexión.' };
+    }
+    if (error?.status === 429) {
+      return { ok: false, error: 'Demasiados intentos. Espera un momento y vuelve a intentarlo.' };
+    }
+    return { ok: false, error: 'Correo o contraseña incorrectos.' };
+  }
+
+  // La cuenta existe, pero ¿es de jefatura y está activa? (lo decide la regla RLS)
+  const { data: perfil } = await sb.from('perfiles').select('id').eq('id', data.user.id).maybeSingle();
+  if (!perfil) {
+    await sb.auth.signOut();
+    return { ok: false, error: 'Tu cuenta no tiene acceso a Puntuaciones.' };
+  }
+  return { ok: true };
+}
+
+export async function cerrarSesion(): Promise<void> {
+  try {
+    await supabase().auth.signOut();
+  } catch {
+    /* sin conexión: la sesión local se borra de todos modos */
   }
 }
 
-export function cerrarSesionLocal(): void {
+export async function haySesion(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
   try {
-    sessionStorage.removeItem(CLAVE_SESION);
-  } catch {
-    /* nada que borrar */
-  }
-}
-
-export function haySesion(): boolean {
-  try {
-    return typeof sessionStorage !== 'undefined' && sessionStorage.getItem(CLAVE_SESION) !== null;
+    const { data } = await supabase().auth.getSession();
+    return !!data.session;
   } catch {
     return false;
   }
 }
 
-/** Deja pasar solo si hay sesión; si no, manda al login. */
-export const sesionGuard: CanActivateFn = () =>
-  haySesion() ? true : inject(Router).createUrlTree(['/login']);
+/** Deja pasar solo si hay sesión de Supabase; si no, manda al login. */
+export const sesionGuard: CanActivateFn = () => {
+  const router = inject(Router);
+  return haySesion().then(ok => (ok ? true : router.createUrlTree(['/login'])));
+};

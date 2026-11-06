@@ -1,43 +1,40 @@
 <div class="login-container">
-  @if (!acceso) {
-    <h2>Iniciar sesión</h2>
+  <h2>Iniciar sesión</h2>
 
-    <form (ngSubmit)="iniciarSesion()" autocomplete="off">
-      <label for="usuario">Usuario</label>
+  <form (ngSubmit)="iniciarSesion()" autocomplete="off">
+    <label for="correo">Correo</label>
+    <input
+      id="correo"
+      name="correo"
+      type="email"
+      inputmode="email"
+      [(ngModel)]="correo"
+      [attr.maxlength]="maxCorreo + 1"
+      autocomplete="username"
+      autocapitalize="none"
+    />
+
+    <label for="password">Contraseña</label>
+    <div class="campo-password">
       <input
-        id="usuario"
-        name="usuario"
-        type="text"
-        [(ngModel)]="usuario"
-        [attr.maxlength]="maxUsuario + 1"
-        autocomplete="off"
-        autocapitalize="none"
+        id="password"
+        name="password"
+        [type]="mostrar ? 'text' : 'password'"
+        [(ngModel)]="password"
+        [attr.maxlength]="maxPassword + 1"
+        autocomplete="current-password"
       />
+      <button type="button" class="ojo" (click)="mostrar = !mostrar">
+        {{ mostrar ? 'Ocultar' : 'Ver' }}
+      </button>
+    </div>
 
-      <label for="password">Contraseña</label>
-      <div class="campo-password">
-        <input
-          id="password"
-          name="password"
-          [type]="mostrar ? 'text' : 'password'"
-          [(ngModel)]="password"
-          [attr.maxlength]="maxPassword + 1"
-          autocomplete="off"
-        />
-        <button type="button" class="ojo" (click)="mostrar = !mostrar">
-          {{ mostrar ? 'Ocultar' : 'Ver' }}
-        </button>
-      </div>
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
 
-      @if (error) {
-        <p class="error" role="alert">{{ error }}</p>
-      }
-
-      <button type="submit" class="entrar">Entrar</button>
-    </form>
-  } @else {
-    <h2 class="ok">✅ Acceso simulado concedido</h2>
-    <p>Bienvenido, {{ usuario }}.</p>
-    <button type="button" class="entrar" (click)="cerrarSesion()">Cerrar sesión</button>
-  }
+    <button type="submit" class="entrar" [disabled]="cargando()">
+      {{ cargando() ? 'Verificando…' : 'Entrar' }}
+    </button>
+  </form>
 </div>

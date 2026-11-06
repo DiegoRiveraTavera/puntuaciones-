@@ -1,4 +1,5 @@
 import { Juegos } from './juegos';
+import { Juego, JuegosRepositorio } from '../../services/juegos/juegos-repositorio';
 
 /**
  * PRÁCTICA — Pirámide de pruebas
@@ -6,7 +7,8 @@ import { Juegos } from './juegos';
  *
  * Se crea la clase directamente (`new Juegos()`), sin TestBed ni plantilla:
  * solo se prueba la lógica de negocio, aislada de Angular, del DOM y del navegador.
- * El temporizador de `guardar()` se reemplaza por un doble de prueba (jasmine.clock).
+ * Dobles de prueba en `guardar()`: el temporizador (jasmine.clock) y la base de datos
+ * (un repositorio falso que responde al instante, sin red).
  */
 
 // Ayudante: crea un juego con un rol y un enfrentamiento entre las escuadras dadas
@@ -127,15 +129,37 @@ describe('UNIT · Juegos — cálculo de puntuaciones', () => {
     beforeEach(() => jasmine.clock().install());
     afterEach(() => jasmine.clock().uninstall());
 
-    it('U-12 muestra la confirmación y la oculta a los 3 segundos', () => {
-      j.guardar();
+    it('U-12 muestra la confirmación y la oculta a los 3 segundos', async () => {
+      // Repositorio falso: confirma el guardado sin conectarse a Supabase
+      const repo = {
+        guardar: jasmine.createSpy('guardar').and.callFake(async (_f: string, juegos: Juego[]) =>
+          new Map(juegos.map((x, i) => [x.id, i + 1]))),
+      } as unknown as JuegosRepositorio;
+      j = new Juegos(repo);
+      crearJuegoConEnfrentamiento(j, 'Relevos', 20, ['RRMS', 'ANK']);
+
+      await j.guardar();
+      expect(repo.guardar).toHaveBeenCalledTimes(1);
       expect(j.guardado()).toBeTrue();
+      expect(j.juegos[0].dbId).withContext('id asignado por la base').toBe(1);
 
       jasmine.clock().tick(2999);
       expect(j.guardado()).toBeTrue();
 
       jasmine.clock().tick(1);
       expect(j.guardado()).toBeFalse();
+    });
+
+    it('U-13 si la base rechaza el guardado, no confirma y muestra el motivo', async () => {
+      const repo = {
+        guardar: async () => { throw new TypeError('Failed to fetch'); },
+      } as unknown as JuegosRepositorio;
+      j = new Juegos(repo);
+      crearJuegoConEnfrentamiento(j, 'Relevos', 20, ['RRMS', 'ANK']);
+
+      await j.guardar();
+      expect(j.guardado()).toBeFalse();
+      expect(j.errorGuardado()).toContain('Sin conexión');
     });
   });
 });

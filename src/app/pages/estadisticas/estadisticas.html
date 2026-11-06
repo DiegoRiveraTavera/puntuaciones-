@@ -5,7 +5,14 @@
   <div class="card-header">
     <h1>ESTADÍSTICAS</h1>
     <p class="subtitulo">Resumen visual del desempeño de todas las escuadras.</p>
+    <p class="subtitulo" *ngIf="fecha()">Sesión del {{ fechaTexto() }}</p>
   </div>
+
+  <p class="msg-estado" *ngIf="cargando()">Cargando estadísticas…</p>
+  <p class="msg-estado error" role="alert" *ngIf="error()">⚠️ {{ error() }}</p>
+  <p class="msg-estado" *ngIf="!cargando() && !error() && puntos.length === 0">
+    Todavía no hay puntos registrados.
+  </p>
 
   <div class="stats-row">
     <div class="stat-box">
@@ -21,12 +28,12 @@
       <span class="stat-label">Promedio</span>
     </div>
     <div class="stat-box lider">
-      <span class="stat-num">{{ lider.nombre }}</span>
+      <span class="stat-num">{{ lider?.nombre ?? '—' }}</span>
       <span class="stat-label">Líder actual</span>
     </div>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" *ngIf="puntos.length > 0">
     <h3>Puntos totales por escuadra</h3>
     <div class="grafica">
       <div class="barra-col" *ngFor="let e of puntos; let i = index">

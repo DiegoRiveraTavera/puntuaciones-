@@ -233,3 +233,9 @@ td.centro { text-align: center; }
   font-size: 14px;
   color: #b3261e;
 }
+
+.msg-cargando {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+}

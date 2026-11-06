@@ -18,8 +18,8 @@ test('E-01 registrar la puntuación de un juego, de inicio de sesión a persiste
   await test.step('1. Iniciar sesión con el usuario de prueba', async () => {
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
     await esperarAngular(page);
-    await page.fill('#usuario', 'moriah');
-    await page.fill('#password', 'Segura2026');
+    await page.fill('#correo', process.env['PRUEBA_CORREO'] ?? '');
+    await page.fill('#password', process.env['PRUEBA_PASSWORD'] ?? '');
     await page.click('button.entrar');
     await expect(page).toHaveURL(/\/inicio$/);
   });

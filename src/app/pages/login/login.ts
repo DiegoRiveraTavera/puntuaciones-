@@ -1,16 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { iniciarSesionLocal, cerrarSesionLocal } from '../../services/sesion/sesion';
+import { iniciarSesion, haySesion } from '../../services/sesion/sesion';
 
 // Límites definidos para las entradas
-const MAX_USUARIO = 20;
-const MAX_PASSWORD = 32;
+const MAX_CORREO = 100;
+const MAX_PASSWORD = 72;
 const MIN_PASSWORD = 8;
-
-// Datos de prueba para el acceso simulado
-const USUARIO_PRUEBA = 'moriah';
-const PASSWORD_PRUEBA = 'Segura2026';
+const FORMATO_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 @Component({
   selector: 'app-login',
@@ -19,73 +16,65 @@ const PASSWORD_PRUEBA = 'Segura2026';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login {
-  readonly maxUsuario = MAX_USUARIO;
+export class Login implements OnInit {
+  readonly maxCorreo = MAX_CORREO;
   readonly maxPassword = MAX_PASSWORD;
 
-  usuario = '';
+  correo = '';
   password = '';
   mostrar = false;
 
-  error = '';
-  acceso = false;
+  // Signals: la app es zoneless y estos valores cambian después de una respuesta del servidor
+  error = signal('');
+  cargando = signal(false);
 
   constructor(private router: Router) {}
 
-  iniciarSesion(): void {
-    this.error = '';
-    this.acceso = false;
+  // Si ya hay una sesión activa, entra directo
+  async ngOnInit() {
+    if (await haySesion()) this.router.navigate(['/inicio']);
+  }
 
-    const usuario = this.usuario.trim();
+  async iniciarSesion(): Promise<void> {
+    if (this.cargando()) return;
+    this.error.set('');
+
+    const correo = this.correo.trim().toLowerCase();
 
     // 1. Comprobar que ambos campos tengan información
-    if (!usuario || !this.password) {
-      this.error = 'Ingresa tu usuario y contraseña.';
+    if (!correo || !this.password) {
+      this.error.set('Ingresa tu correo y contraseña.');
       return;
     }
 
     // 2. Rechazar entradas demasiado largas
-    if (
-      usuario.length > MAX_USUARIO ||
-      this.password.length > MAX_PASSWORD
-    ) {
-      this.error = 'Los datos exceden la longitud permitida.';
+    if (correo.length > MAX_CORREO || this.password.length > MAX_PASSWORD) {
+      this.error.set('Los datos exceden la longitud permitida.');
       return;
     }
 
-    // 3. Comprobar la longitud mínima de la contraseña
+    // 3. Formato de correo
+    if (!FORMATO_CORREO.test(correo)) {
+      this.error.set('Escribe un correo válido.');
+      return;
+    }
+
+    // 4. Longitud mínima de la contraseña
     if (this.password.length < MIN_PASSWORD) {
-      this.error = `La contraseña debe tener al menos ${MIN_PASSWORD} caracteres.`;
+      this.error.set(`La contraseña debe tener al menos ${MIN_PASSWORD} caracteres.`);
       return;
     }
 
-    // 4. Validar el acceso simulado
-    if (
-      usuario === USUARIO_PRUEBA &&
-      this.password === PASSWORD_PRUEBA
-    ) {
-      this.acceso = true;
-      this.password = '';
-      iniciarSesionLocal(usuario); // registra la sesión para el guard (REQ-14)
+    // 5. Verificación en el servidor (Supabase Authentication)
+    this.cargando.set(true);
+    const resultado = await iniciarSesion(correo, this.password);
+    this.cargando.set(false);
+    this.password = ''; // no conservar la contraseña después del intento
 
-      // Ir directamente a la página de Inicio
+    if (resultado.ok) {
       this.router.navigate(['/inicio']);
-      return;
+    } else {
+      this.error.set(resultado.error);
     }
-
-    // Mensaje genérico para credenciales incorrectas
-    this.error = 'Usuario o contraseña incorrectos.';
-
-    // No conservar la contraseña después del intento
-    this.password = '';
-  }
-
-  cerrarSesion(): void {
-    cerrarSesionLocal();
-    this.acceso = false;
-    this.usuario = '';
-    this.password = '';
-    this.error = '';
-    this.router.navigate(['/login']);
   }
 }

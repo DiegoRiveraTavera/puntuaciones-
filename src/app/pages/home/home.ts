@@ -1,17 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { WearableWidgetComponent } from '../../components/wearable-widget/wearable-widget';
 import { FutterComponent } from "../../components/futter/futter";
-import { leerDato, guardarDato } from '../../services/almacen/almacen';
-
-interface DatosInicio {
-  fecha: string;
-  escuadras: string[];
-}
-
-const CLAVE = 'inicio';
+import { escuadrasDeFecha, guardarEscuadrasDeFecha, hoyLocal } from '../../services/datos/datos';
+import { mensajeError } from '../../services/supabase/supabase';
 
 @Component({
   selector: 'app-home',
@@ -21,19 +15,36 @@ const CLAVE = 'inicio';
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
-  fecha: string = new Date().toISOString().split('T')[0];
+  fecha: string = hoyLocal();
   nuevaEscuadra: string = '';
-  escuadras: string[] = [];
-  guardado: boolean = false;
-  errorGuardado: boolean = false;
+  // Signals: la app es zoneless y estos valores cambian cuando responde el servidor
+  escuadras = signal<string[]>([]);
+  guardado = signal(false);
+  errorGuardado = signal('');
+  cargando = signal(false);
 
-  // REQ-11: al entrar se recupera lo último que se guardó en el dispositivo
+  // Al entrar se cargan desde la base de datos las escuadras registradas para la fecha
   ngOnInit() {
-    const datos = leerDato<DatosInicio | null>(CLAVE, null);
-    if (datos) {
-      this.fecha = datos.fecha || this.fecha;
-      this.escuadras = Array.isArray(datos.escuadras) ? datos.escuadras : [];
+    this.cargar();
+  }
+
+  async cargar() {
+    this.cargando.set(true);
+    this.errorGuardado.set('');
+    try {
+      const lista = await escuadrasDeFecha(this.fecha);
+      this.escuadras.set(lista.map(e => e.nombre));
+    } catch (e) {
+      this.errorGuardado.set(mensajeError(e));
+    } finally {
+      this.cargando.set(false);
     }
+  }
+
+  cambiarFecha(fecha: string) {
+    this.fecha = fecha;
+    this.guardado.set(false);
+    this.cargar();
   }
 
   agregar() {
@@ -41,31 +52,38 @@ export class Home implements OnInit {
     if (!nombre) return;
 
     // REQ-08: evita duplicados sin importar mayúsculas y minúsculas (RRMS = rrms)
-    const repetida = this.escuadras.find(e => e.toUpperCase() === nombre.toUpperCase());
+    const repetida = this.escuadras().find(e => e.toUpperCase() === nombre.toUpperCase());
     if (repetida) {
       alert(`"${repetida}" ya está en la lista`);
       return;
     }
 
-    this.escuadras.push(nombre);
+    this.escuadras.update(lista => [...lista, nombre]);
     this.nuevaEscuadra = '';
-    this.guardado = false;
+    this.guardado.set(false);
   }
 
   eliminar(index: number) {
-    this.escuadras.splice(index, 1);
-    this.guardado = false;
+    this.escuadras.update(lista => lista.filter((_, i) => i !== index));
+    this.guardado.set(false);
   }
 
-  guardar() {
-    if (this.escuadras.length === 0) {
+  async guardar() {
+    if (this.escuadras().length === 0) {
       alert('Agrega al menos una escuadra antes de guardar');
       return;
     }
-    // REQ-11: ahora sí se guarda en el dispositivo; solo se confirma si se logró
-    const ok = guardarDato<DatosInicio>(CLAVE, { fecha: this.fecha, escuadras: this.escuadras });
-    this.guardado = ok;
-    this.errorGuardado = !ok;
-    setTimeout(() => this.guardado = false, 3000); // oculta el mensaje a los 3s
+    this.errorGuardado.set('');
+    this.cargando.set(true);
+    try {
+      // Se guarda en Supabase; el mensaje de éxito solo sale si el servidor confirmó
+      await guardarEscuadrasDeFecha(this.fecha, this.escuadras());
+      this.guardado.set(true);
+      setTimeout(() => this.guardado.set(false), 3000); // oculta el mensaje a los 3s
+    } catch (e) {
+      this.errorGuardado.set(mensajeError(e));
+    } finally {
+      this.cargando.set(false);
+    }
   }
 }

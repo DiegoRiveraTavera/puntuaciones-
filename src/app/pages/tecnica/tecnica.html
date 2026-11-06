@@ -63,7 +63,7 @@
 
         <!-- Foto de la técnica de cada escuadra -->
     <h3 class="fotos-titulo">Foto de la técnica</h3>
-    <p class="fotos-ayuda">Toma una foto de la estructura de cada escuadra al calificarla.</p>
+    <p class="fotos-ayuda">Toma una foto de la estructura de cada escuadra al calificarla. Se guarda junto con las calificaciones.</p>
 
     <div class="fotos-grid">
       <div class="foto-tile" *ngFor="let escuadra of escuadras">
@@ -75,6 +75,7 @@
         <div class="foto-marco">
           <img *ngIf="fotos()[escuadra]" [src]="fotos()[escuadra]" [alt]="'Técnica de ' + escuadra" />
           <span class="foto-vacia" *ngIf="!fotos()[escuadra]">Sin foto</span>
+          <span class="foto-pendiente" *ngIf="fotoPendiente(escuadra)">Se subirá al guardar</span>
         </div>
 
         <div class="foto-botones">
@@ -90,8 +91,12 @@
     <p class="msg-error-foto" *ngIf="errorFoto()">{{ errorFoto() }}</p>
 
     <div class="acciones">
-      <button class="btn-guardar" (click)="guardar()">💾 Guardar calificaciones</button>
+      <button class="btn-guardar" (click)="guardar()" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando…' : '💾 Guardar calificaciones' }}
+      </button>
       <p class="msg-guardado" *ngIf="guardado()">✅ Calificaciones guardadas</p>
+      <p class="msg-error-foto" *ngIf="errorGuardado()" role="alert">⚠️ {{ errorGuardado() }}</p>
+      <p class="msg-aviso" *ngIf="aviso()">🔄 {{ aviso() }}</p>
       <p class="msg-error-foto" *ngIf="errorNotificacion()">⚠️ {{ errorNotificacion() }}</p>
     </div>
   </div>

@@ -15,9 +15,18 @@ async function cargar(page: Page, ruta: string) {
   await page.waitForTimeout(1000);
 }
 
-async function login(page: Page, usuario = 'moriah', password = 'Segura2026') {
+// Cuenta de prueba de jefatura en Supabase. No se escribe en el código: se pasa al correr
+// las pruebas, por ejemplo en PowerShell:
+//   $env:PRUEBA_CORREO="tu@correo.com"; $env:PRUEBA_PASSWORD="tuContraseña"; npx playwright test
+const CORREO = process.env['PRUEBA_CORREO'] ?? '';
+const PASSWORD = process.env['PRUEBA_PASSWORD'] ?? '';
+test.beforeAll(() => {
+  if (!CORREO || !PASSWORD) throw new Error('Define PRUEBA_CORREO y PRUEBA_PASSWORD con una cuenta de jefatura de Supabase');
+});
+
+async function login(page: Page, usuario = CORREO, password = PASSWORD) {
   await cargar(page, '/login');
-  await page.fill('#usuario', usuario);
+  await page.fill('#correo', usuario);
   await page.fill('#password', password);
   await page.click('button.entrar');
 }
@@ -120,16 +129,16 @@ test('REQ-07 Login rechaza entradas inválidas con mensajes claros', async ({ pa
   const alerta = page.getByRole('alert');
 
   await page.click('button.entrar'); // campos vacíos
-  await expect(alerta).toHaveText('Ingresa tu usuario y contraseña.');
+  await expect(alerta).toHaveText('Ingresa tu correo y contraseña.');
 
-  await page.fill('#usuario', 'moriah');
+  await page.fill('#correo', CORREO);
   await page.fill('#password', 'abc123'); // < 8 caracteres
   await page.click('button.entrar');
   await expect(alerta).toHaveText('La contraseña debe tener al menos 8 caracteres.');
 
   await page.fill('#password', 'Incorrecta99');
   await page.click('button.entrar');
-  await expect(alerta).toHaveText('Usuario o contraseña incorrectos.');
+  await expect(alerta).toHaveText('Correo o contraseña incorrectos.');
   await expect(page.locator('#password')).toHaveValue(''); // no conserva la contraseña
   await expect(page).toHaveURL(/\/login$/);
 });

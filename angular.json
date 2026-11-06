@@ -83,7 +83,10 @@
               "buildTarget": "puntuaciones:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "prebundle": { "exclude": ["firebase-admin"] }
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"
