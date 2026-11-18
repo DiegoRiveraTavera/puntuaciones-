@@ -1,0 +1,127 @@
+{
+ "version": "antes",
+ "latenciaMs": 100,
+ "cpu": {
+  "promedioPct": 16.9,
+  "maximoPct": 92.4,
+  "muestras": 259
+ },
+ "pruebas": {
+  "consultaRepetida": {
+   "ms": [
+    993,
+    779,
+    766,
+    735,
+    782,
+    718,
+    750,
+    732,
+    770,
+    730
+   ],
+   "n": 10,
+   "prom": 775.5,
+   "min": 718,
+   "max": 993,
+   "peticionesPorCarga": 5
+  },
+  "escritura": [
+   {
+    "juegos": 1,
+    "ms": 2944,
+    "peticiones": 22
+   },
+   {
+    "juegos": 2,
+    "ms": 4463,
+    "peticiones": 36
+   },
+   {
+    "juegos": 3,
+    "ms": 5989,
+    "peticiones": 50
+   },
+   {
+    "juegos": 4,
+    "ms": 7498,
+    "peticiones": 64
+   },
+   {
+    "juegos": 5,
+    "ms": 8970,
+    "peticiones": 78
+   }
+  ],
+  "integridad": {
+   "juegos": 5,
+   "enfrentamientos": 20,
+   "participaciones": 40
+  },
+  "navegacion": {
+   "Inicio": {
+    "n": 3,
+    "prom": 149,
+    "min": 102,
+    "max": 220
+   },
+   "Formación": {
+    "n": 3,
+    "prom": 555.7,
+    "min": 546,
+    "max": 567
+   },
+   "Juegos": {
+    "n": 3,
+    "prom": 674.3,
+    "min": 664,
+    "max": 684
+   },
+   "Técnica": {
+    "n": 3,
+    "prom": 143,
+    "min": 128,
+    "max": 159
+   },
+   "Lugares": {
+    "n": 3,
+    "prom": 412.3,
+    "min": 381,
+    "max": 461
+   },
+   "Estadísticas": {
+    "n": 3,
+    "prom": 390.7,
+    "min": 385,
+    "max": 402
+   }
+  },
+  "procesamiento": {
+   "enfrentamientos": 40,
+   "cambios": 20,
+   "msPorCambio": {
+    "n": 20,
+    "prom": 29.1,
+    "min": 20.1,
+    "max": 31.8
+   },
+   "scriptMs": 85.4,
+   "tareasMs": 349.8
+  }
+ },
+ "memoria": {
+  "inicialMB": 22.1,
+  "maximaMB": 27.7,
+  "finalMB": 13.4
+ },
+ "cpuTotal": {
+  "segundosHiloPrincipal": 11.1,
+  "segundosScript": 1.9,
+  "duracionSesionS": 65.6
+ },
+ "tareasLargas": {
+  "n": 2,
+  "maxMs": 188
+ },
+ "peticionesTotales": 365
+}

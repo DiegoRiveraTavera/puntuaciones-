@@ -1,0 +1,92 @@
+{
+ "version": "despues",
+ "escenarios": [
+  {
+   "codigo": "RES-01",
+   "escenario": "Pérdida de Internet durante una consulta",
+   "ms": 7438,
+   "exito": false,
+   "mensaje": "⚠️ Sin conexión con el servidor. No se guardó; revisa tu internet e inténtalo de nuevo.",
+   "intentosGET": 4,
+   "appEstable": true
+  },
+  {
+   "codigo": "RES-02",
+   "escenario": "Pérdida de Internet durante una escritura",
+   "ms": 2354,
+   "exito": false,
+   "mensaje": "⚠️ Sin conexión con el servidor. No se guardó; revisa tu internet e inténtalo de nuevo.",
+   "confirmoFalsamente": false,
+   "juegosEnBase": 0,
+   "datosEnPantalla": 1
+  },
+  {
+   "codigo": "RES-06",
+   "escenario": "Recuperación de conexión (guardar de nuevo)",
+   "ms": 143,
+   "exito": true,
+   "mensaje": "",
+   "juegosEnBase": 1,
+   "duplicados": 0
+  },
+  {
+   "codigo": "RES-03a",
+   "escenario": "Servidor sin respuesta al guardar",
+   "ms": 32088,
+   "exito": false,
+   "mensaje": "⚠️ El servidor no respondió a tiempo. Revisa tu conexión e inténtalo de nuevo.",
+   "avisoDeReintentoMs": 10419
+  },
+  {
+   "codigo": "RES-03b",
+   "escenario": "Servidor sin respuesta al consultar (Lugares)",
+   "ms": 10441,
+   "exito": false,
+   "mensaje": "⚠️ El servidor no respondió a tiempo. Revisa tu conexión e inténtalo de nuevo."
+  },
+  {
+   "codigo": "RES-04",
+   "escenario": "Respuesta HTTP 500",
+   "ms": 235,
+   "exito": false,
+   "mensaje": "⚠️ Ocurrió un error al comunicarse con el servidor.",
+   "confirmoFalsamente": false,
+   "sigueFuncionando": true
+  },
+  {
+   "codigo": "RES-05a",
+   "escenario": "Respuesta HTTP 401",
+   "ms": 234,
+   "exito": false,
+   "mensaje": "⚠️ Tu sesión expiró. Vuelve a iniciar sesión."
+  },
+  {
+   "codigo": "RES-05b",
+   "escenario": "Respuesta HTTP 403",
+   "ms": 234,
+   "exito": false,
+   "mensaje": "⚠️ No tienes permiso para hacer esta operación."
+  },
+  {
+   "codigo": "RES-07",
+   "escenario": "Reintento de una escritura cuya respuesta se perdió",
+   "primerIntento": {
+    "ms": 1357,
+    "exito": true,
+    "mensaje": ""
+   },
+   "reintentoDelUsuario": null,
+   "copiasEnBase": 1,
+   "pestañasTrasRecargar": 1
+  },
+  {
+   "codigo": "RES-08",
+   "escenario": "Respuesta tardía (3 s) con 3 clics en Guardar",
+   "ms": 3389,
+   "exito": true,
+   "mensaje": "",
+   "solicitudesDeCreacion": 1,
+   "copiasEnBase": 1
+  }
+ ]
+}

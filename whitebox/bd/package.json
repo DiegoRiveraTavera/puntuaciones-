@@ -1,0 +1,15 @@
+{
+  "name": "puntuaciones-whitebox-bd",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas de la base de Supabase en PostgreSQL embebido (PGlite): P11 White Box, P12 migración y P13-14 persistencia (CI)",
+  "scripts": {
+    "test": "node --test persistencia.test.mjs",
+    "test:persistencia": "node --test persistencia.test.mjs",
+    "test:whitebox": "node wb_bd.mjs",
+    "test:migracion": "node p12_migracion.mjs"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.2.17"
+  }
+}

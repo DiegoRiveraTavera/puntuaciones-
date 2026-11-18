@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { supabase } from '../supabase/supabase';
-import { asegurarEscuadra, EscuadraBD, escuadrasDeFecha, listarEscuadras, obtenerSesion } from '../datos/datos';
+import { esErrorDeRed, supabase } from '../supabase/supabase';
+import { EscuadraBD, escuadrasDeFecha, listarEscuadras, obtenerSesion } from '../datos/datos';
+import { asegurarJuegosValidos } from './validacion-juego';
 
 export interface Enfrentamiento {
   escuadras: string[];
@@ -17,6 +18,11 @@ export interface Juego {
   id: number;
   /** id del juego en la base de datos; no existe hasta que se guarda por primera vez. */
   dbId?: number;
+  /**
+   * Id único creado en la app al agregar el juego (Práctica 12). Es la llave de idempotencia:
+   * si la misma solicitud llega dos veces al servidor, actualiza el mismo juego en lugar de duplicarlo.
+   */
+  idCliente?: string;
   nombre: string;
   valor: number;
   roles: Rol[];
@@ -30,6 +36,7 @@ export interface DatosJuegos {
 
 interface FilaJuego {
   id: number;
+  id_cliente: string | null;
   nombre: string;
   valor: number;
   enfrentamientos: {
@@ -57,6 +64,47 @@ export async function escuadrasParaElegir(fecha: string): Promise<string[]> {
   return lista.map(e => e.nombre);
 }
 
+/** Id único para un juego nuevo (llave de idempotencia). */
+export function nuevoIdCliente(): string {
+  if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  // Respaldo para WebViews antiguas: UUID v4 con crypto.getRandomValues
+  const b = crypto.getRandomValues(new Uint8Array(16));
+  b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+  const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
+export interface OpcionesReintento {
+  /** Reintentos después del primer intento (por defecto 2). */
+  reintentos?: number;
+  /** Espera antes del primer reintento, en ms; se duplica en cada reintento (por defecto 500). */
+  esperaBase?: number;
+  /** Aviso a la interfaz: número de reintento que va a empezar. */
+  alReintentar?: (intento: number, total: number) => void;
+  /** Para pruebas: cómo esperar (por defecto setTimeout). */
+  dormir?: (ms: number) => Promise<void>;
+}
+
+/**
+ * Reintento controlado con espera progresiva (exponential backoff + jitter).
+ * Solo reintenta errores de conexión (sin red, sin respuesta, tiempo agotado); un error
+ * de validación o de permisos se devuelve de inmediato. Úsese solo con operaciones
+ * idempotentes: repetirlas no debe crear registros nuevos.
+ */
+export async function conReintentos<T>(operacion: () => Promise<T>, opciones: OpcionesReintento = {}): Promise<T> {
+  const { reintentos = 2, esperaBase = 500, alReintentar, dormir = ms => new Promise<void>(r => setTimeout(r, ms)) } = opciones;
+  for (let intento = 0; ; intento++) {
+    try {
+      return await operacion();
+    } catch (error) {
+      if (intento >= reintentos || !esErrorDeRed(error)) throw error;
+      const espera = esperaBase * 2 ** intento + Math.round(Math.random() * esperaBase / 2);
+      alReintentar?.(intento + 1, reintentos);
+      await dormir(espera);
+    }
+  }
+}
+
 /**
  * Acceso a la base de datos para la pantalla Juegos.
  * Es un servicio inyectable para que las pruebas puedan sustituirlo por un doble.
@@ -71,7 +119,7 @@ export class JuegosRepositorio {
 
     const { data, error } = await supabase()
       .from('juegos')
-      .select('id, nombre, valor, enfrentamientos ( id, rol, ganador_id, enfrentamiento_escuadras ( escuadra_id ) )')
+      .select('id, id_cliente, nombre, valor, enfrentamientos ( id, rol, ganador_id, enfrentamiento_escuadras ( escuadra_id ) )')
       .eq('sesion_id', sesionId)
       .order('id');
     if (error) throw error;
@@ -88,7 +136,7 @@ export class JuegosRepositorio {
         while (participantes.length < 2) participantes.push('');
         roles[e.rol - 1].enfrentamientos.push({ escuadras: participantes, ganador: nombre(e.ganador_id) });
       }
-      return { id: fila.id, dbId: fila.id, nombre: fila.nombre, valor: fila.valor, roles } as Juego;
+      return { id: fila.id, dbId: fila.id, idCliente: fila.id_cliente ?? nuevoIdCliente(), nombre: fila.nombre, valor: fila.valor, roles } as Juego;
     });
 
     // Si un juego usa una escuadra que no está en la lista del día, también se muestra
@@ -99,71 +147,37 @@ export class JuegosRepositorio {
   }
 
   /**
-   * Guarda todos los juegos de la fecha. Cada juego se guarda completo:
-   * sus enfrentamientos se reemplazan por los que hay en pantalla.
+   * Guarda todos los juegos de la fecha (Práctica 12: versión optimizada).
+   * Cada juego se guarda con UNA llamada a la función guardar_juego de la base, que hace
+   * todo en una transacción (juego, enfrentamientos, participantes y ganador).
+   * Antes eran ~9 peticiones en serie sin transacción.
+   * Como cada juego lleva su idCliente, la llamada es idempotente y se puede reintentar.
    * Devuelve el id en la base de cada juego (id de pantalla → id en la base).
    */
-  async guardar(fecha: string, juegos: Juego[]): Promise<Map<number, number>> {
+  async guardar(fecha: string, juegos: Juego[], opciones: OpcionesReintento = {}): Promise<Map<number, number>> {
+    // Práctica 13-14: si algún juego rompe las reglas, no se envía nada al servidor
+    asegurarJuegosValidos(juegos);
     const sb = supabase();
-    const sesionId = (await obtenerSesion(fecha, true)) as number;
-    const existentes = await listarEscuadras();
     const ids = new Map<number, number>();
-    const enSesion = new Set<number>();
 
     for (const juego of juegos) {
-      let dbId = juego.dbId;
-      if (dbId === undefined) {
-        const { data, error } = await sb.from('juegos')
-          .insert({ sesion_id: sesionId, nombre: juego.nombre, valor: juego.valor })
-          .select('id').single();
+      juego.idCliente ??= nuevoIdCliente();
+      const datos = {
+        id: juego.dbId ?? null,
+        idCliente: juego.idCliente,
+        nombre: juego.nombre,
+        valor: juego.valor,
+        roles: juego.roles.map(r => ({
+          numero: r.numero,
+          enfrentamientos: r.enfrentamientos.map(e => ({ escuadras: e.escuadras, ganador: e.ganador })),
+        })),
+      };
+      const dbId = await conReintentos(async () => {
+        const { data, error } = await sb.rpc('guardar_juego', { p_fecha: fecha, p_juego: datos });
         if (error) throw error;
-        dbId = data.id as number;
-      } else {
-        const { error } = await sb.from('juegos').update({ nombre: juego.nombre, valor: juego.valor }).eq('id', dbId);
-        if (error) throw error;
-      }
+        return data as number;
+      }, opciones);
       ids.set(juego.id, dbId);
-
-      // Se reemplazan los enfrentamientos del juego
-      const { error: errBorrar } = await sb.from('enfrentamientos').delete().eq('juego_id', dbId);
-      if (errBorrar) throw errBorrar;
-
-      for (const rol of juego.roles) {
-        for (const enf of rol.enfrentamientos) {
-          const participantes = [...new Set(enf.escuadras.map(e => e.trim()).filter(Boolean))];
-
-          const { data: nuevo, error: errEnf } = await sb.from('enfrentamientos')
-            .insert({ juego_id: dbId, rol: rol.numero }).select('id').single();
-          if (errEnf) throw errEnf;
-          const enfId = nuevo.id as number;
-
-          const porNombre = new Map<string, number>();
-          for (const n of participantes) {
-            const id = await asegurarEscuadra(n, existentes);
-            porNombre.set(n, id);
-            if (!enSesion.has(id)) {
-              // La escuadra participa en la sesión del día (para el ranking general)
-              const { error } = await sb.from('sesion_escuadras')
-                .upsert({ sesion_id: sesionId, escuadra_id: id }, { ignoreDuplicates: true });
-              if (error) throw error;
-              enSesion.add(id);
-            }
-          }
-
-          if (porNombre.size > 0) {
-            const { error } = await sb.from('enfrentamiento_escuadras')
-              .insert([...porNombre.values()].map(escuadra_id => ({ enfrentamiento_id: enfId, escuadra_id })));
-            if (error) throw error;
-          }
-
-          // El ganador se registra al final: la base exige que sea una de las participantes
-          const ganadorId = porNombre.get(enf.ganador.trim());
-          if (ganadorId !== undefined) {
-            const { error } = await sb.from('enfrentamientos').update({ ganador_id: ganadorId }).eq('id', enfId);
-            if (error) throw error;
-          }
-        }
-      }
     }
     return ids;
   }

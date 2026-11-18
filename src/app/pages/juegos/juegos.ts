@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
-import { Enfrentamiento, Juego, JuegosRepositorio, Rol } from '../../services/juegos/juegos-repositorio';
+import { Enfrentamiento, Juego, JuegosRepositorio, nuevoIdCliente, Rol } from '../../services/juegos/juegos-repositorio';
 import { hoyLocal } from '../../services/datos/datos';
 import { mensajeError } from '../../services/supabase/supabase';
+import { validarJuegos } from '../../services/juegos/validacion-juego';
 
 @Component({
   selector: 'app-juegos',
@@ -26,6 +27,8 @@ export class Juegos implements OnInit {
   errorGuardado = signal('');
   cargando = signal(false);
   guardando = signal(false);
+  // Práctica 12: aviso mientras se reintenta un guardado por falla de red
+  reintento = signal('');
 
   // Form nuevo juego
   nuevoNombre = '';
@@ -58,6 +61,7 @@ export class Juegos implements OnInit {
     if (!this.nuevoNombre.trim() || this.nuevoValor <= 0) return;
     const juego: Juego = {
       id: Date.now(),
+      idCliente: nuevoIdCliente(),   // llave de idempotencia (Práctica 12)
       nombre: this.nuevoNombre.trim(),
       valor: this.nuevoValor,
       roles: []
@@ -136,10 +140,19 @@ export class Juegos implements OnInit {
       if (e.ganador && !e.escuadras.includes(e.ganador)) e.ganador = '';
     }
 
+    // Práctica 13-14: reglas del juego (nombre, valor 1–1000, escuadras distintas) antes de enviar
+    const errores = validarJuegos(this.juegos);
+    if (errores.length) {
+      this.errorGuardado.set(errores[0]);
+      return;
+    }
+
     this.guardando.set(true);
     try {
       // Se guarda en Supabase; el mensaje de éxito solo sale si el servidor confirmó
-      const ids = await this.repo.guardar(this.fecha, this.juegos);
+      const ids = await this.repo.guardar(this.fecha, this.juegos, {
+        alReintentar: (n, total) => this.reintento.set(`Sin respuesta del servidor; reintentando (${n} de ${total})…`),
+      });
       this.juegos.forEach(j => { const id = ids.get(j.id); if (id !== undefined) j.dbId = id; });
       this.guardado.set(true);
       setTimeout(() => this.guardado.set(false), 3000);
@@ -147,6 +160,7 @@ export class Juegos implements OnInit {
       this.errorGuardado.set(mensajeError(e));
     } finally {
       this.guardando.set(false);
+      this.reintento.set('');
     }
   }
 

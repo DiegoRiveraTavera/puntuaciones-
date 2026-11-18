@@ -98,21 +98,23 @@
       <button class="btn-guardar" (click)="guardar()" [disabled]="guardando()">
         {{ guardando() ? 'Guardando…' : '💾 Guardar' }}
       </button>
+      <p class="msg-reintento" role="status" *ngIf="reintento()">⏳ {{ reintento() }}</p>
       <p class="msg-guardado" *ngIf="guardado()">✅ Guardado correctamente</p>
       <p class="msg-error-guardado" role="alert" *ngIf="errorGuardado()">⚠️ {{ errorGuardado() }}</p>
     </div>
   </div>
 
-  <!-- Resumen de puntos -->
-  <div class="card-body" *ngIf="getResumen().length > 0">
+  <!-- Resumen de puntos (Práctica 12: se calcula una sola vez por revisión de la vista) -->
+  @let resumen = getResumen();
+  <div class="card-body" *ngIf="resumen.length > 0">
     <h3>Puntos acumulados en juegos</h3>
     <div class="ranking-lista">
-      <div class="ranking-item" *ngFor="let e of getResumen(); let i = index">
+      <div class="ranking-item" *ngFor="let e of resumen; let i = index">
         <span class="posicion" [class]="'pos-'+(i+1)">{{ i+1 }}°</span>
         <div class="avatar">{{ e.nombre.slice(0,2) }}</div>
         <span class="nombre">{{ e.nombre }}</span>
         <div class="barra-wrapper">
-          <div class="barra" [style.width.%]="(e.puntos / getResumen()[0].puntos) * 100"></div>
+          <div class="barra" [style.width.%]="(e.puntos / resumen[0].puntos) * 100"></div>
         </div>
         <span class="puntos">{{ e.puntos }} pts</span>
       </div>

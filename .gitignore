@@ -44,3 +44,7 @@ Thumbs.db
 
 .env
 secrets/
+# Prácticas 13-14: resultados de las pruebas automatizadas (se generan en cada corrida)
+/reportes/ci
+whitebox/bd/node_modules
+whitebox/bd/*.junit.xml
