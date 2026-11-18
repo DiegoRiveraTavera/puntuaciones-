@@ -1,0 +1,17 @@
+/* Prácticas 13 y 14 — Pruebas que corre la integración continua (npm run test:ci):
+   automatización (P13-14), caja blanca (P11-P12) y pirámide (unitarias e integración de Juegos).
+   Los *.spec.ts que generó Angular CLI no se incluyen porque no compilan. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/ci",
+    "types": ["jasmine"]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/app/automatizacion/**/*.ts",
+    "src/app/whitebox/**/*.ts",
+    "src/**/*.logic.spec.ts",
+    "src/**/*.int.spec.ts"
+  ]
+}

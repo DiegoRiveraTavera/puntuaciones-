@@ -1,0 +1,13 @@
+/* Práctica 11 — Pruebas White Box.
+   Compila solo las pruebas de caja blanca (src/app/whitebox/*.wb.spec.ts). */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/whitebox",
+    "types": ["jasmine"]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/app/whitebox/**/*.ts"
+  ]
+}

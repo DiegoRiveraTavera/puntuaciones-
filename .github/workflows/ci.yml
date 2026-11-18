@@ -1,0 +1,92 @@
+# Prácticas 13 y 14 — Integración continua de Puntuaciones (Escuadrón Moriah)
+# Corre todas las pruebas automatizadas en cada push y en cada pull request.
+#   · Job "app": unitarias, integración, caja blanca y pirámide (Karma + Chrome sin interfaz)
+#                y después compila la app de producción (también revisa los tipos de TypeScript).
+#   · Job "bd":  persistencia de guardar_juego en PostgreSQL embebido (PGlite) con el esquema real.
+# Si alguna prueba falla, el job queda en rojo y el commit o el pull request lo muestran.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: App · unitarias e integración (Karma)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Pruebas unitarias, de integración y de caja blanca
+        run: npm run test:ci
+
+      - name: Compilar la app (producción)
+        run: npm run build
+
+      - name: Guardar resumen y cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-pruebas-app
+          path: |
+            reportes/ci/resumen-pruebas.json
+            coverage/ci/
+          if-no-files-found: warn
+          retention-days: 30
+
+  bd:
+    name: Base de datos · persistencia (PGlite)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: whitebox/bd
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: whitebox/bd/package-lock.json
+
+      - name: Instalar PGlite
+        run: npm ci
+
+      - name: Pruebas de persistencia de guardar_juego
+        run: node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=persistencia.junit.xml persistencia.test.mjs
+
+      - name: Resumen en la página de la ejecución
+        if: always()
+        run: |
+          if [ -f persistencia.junit.xml ]; then
+            total=$(grep -o '<testcase ' persistencia.junit.xml | wc -l)
+            fallidas=$(grep -o '<failure' persistencia.junit.xml | wc -l)
+            echo "## Persistencia (PGlite)" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "**$((total - fallidas)) de $total aprobadas**, $fallidas fallidas" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guardar reporte JUnit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-pruebas-bd
+          path: whitebox/bd/persistencia.junit.xml
+          if-no-files-found: warn
+          retention-days: 30

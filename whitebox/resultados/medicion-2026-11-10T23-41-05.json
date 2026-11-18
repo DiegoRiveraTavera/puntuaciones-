@@ -1,0 +1,890 @@
+{
+ "entorno": {
+  "fecha": "2026-11-10T23:39:50.070Z",
+  "zona": "America/Mexico_City",
+  "equipo": "DESKTOP-65I8KK0",
+  "so": "Windows_NT 10.0.19045 (win32 x64)",
+  "cpu": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz × 4",
+  "memoriaGB": 15.89,
+  "node": "v22.12.0",
+  "conexion": "UTEQ-Alumnos",
+  "commit": "c28eea3",
+  "versionApp": "0.0.0",
+  "servidorBD": "berxzmxipyapcczfwynl.supabase.co",
+  "sitio": "puntuaciones.vercel.app"
+ },
+ "ping": {
+  "supabase": {
+   "host": "berxzmxipyapcczfwynl.supabase.co",
+   "enviados": 20,
+   "recibidos": 20,
+   "perdidaPct": 0,
+   "n": 20,
+   "min": 2,
+   "max": 40,
+   "prom": 8.2,
+   "desv": 8.02,
+   "p95": 13,
+   "muestras": [
+    10,
+    4,
+    4,
+    13,
+    5,
+    4,
+    9,
+    3,
+    12,
+    4,
+    5,
+    4,
+    8,
+    4,
+    4,
+    2,
+    9,
+    7,
+    40,
+    13
+   ]
+  },
+  "vercel": {
+   "host": "puntuaciones.vercel.app",
+   "enviados": 20,
+   "recibidos": 20,
+   "perdidaPct": 0,
+   "n": 20,
+   "min": 58,
+   "max": 104,
+   "prom": 63.15,
+   "desv": 10.01,
+   "p95": 70,
+   "muestras": [
+    104,
+    58,
+    60,
+    59,
+    60,
+    62,
+    64,
+    59,
+    60,
+    70,
+    58,
+    58,
+    59,
+    58,
+    64,
+    58,
+    59,
+    65,
+    59,
+    69
+   ]
+  }
+ },
+ "http": {
+  "endpoint": "GET /rest/v1/escuadras?select=id,nombre&activa=eq.true&order=id",
+  "conexionNueva": {
+   "solicitudes": [
+    {
+     "n": 1,
+     "status": 200,
+     "ms": 134.8,
+     "bytes": 150,
+     "dns": 2.05,
+     "tcp": 4.22,
+     "tls": 13.46,
+     "servidor": 114.51
+    },
+    {
+     "n": 2,
+     "status": 200,
+     "ms": 127,
+     "bytes": 150,
+     "dns": 4.32,
+     "tcp": 4.15,
+     "tls": 10.78,
+     "servidor": 107.33
+    },
+    {
+     "n": 3,
+     "status": 200,
+     "ms": 121.69,
+     "bytes": 150,
+     "dns": 3.06,
+     "tcp": 4.07,
+     "tls": 14.76,
+     "servidor": 99.37
+    },
+    {
+     "n": 4,
+     "status": 200,
+     "ms": 132.3,
+     "bytes": 150,
+     "dns": 2.07,
+     "tcp": 5.9,
+     "tls": 15.62,
+     "servidor": 108.32
+    },
+    {
+     "n": 5,
+     "status": 200,
+     "ms": 321.92,
+     "bytes": 150,
+     "dns": 10.91,
+     "tcp": 6.52,
+     "tls": 20.25,
+     "servidor": 283.79
+    },
+    {
+     "n": 6,
+     "status": 200,
+     "ms": 133.41,
+     "bytes": 150,
+     "dns": 3.44,
+     "tcp": 10.92,
+     "tls": 12.99,
+     "servidor": 105.6
+    },
+    {
+     "n": 7,
+     "status": 200,
+     "ms": 117.79,
+     "bytes": 150,
+     "dns": 1.9,
+     "tcp": 3.68,
+     "tls": 12.42,
+     "servidor": 99.31
+    },
+    {
+     "n": 8,
+     "status": 200,
+     "ms": 135.23,
+     "bytes": 150,
+     "dns": 2.61,
+     "tcp": 4.69,
+     "tls": 18.61,
+     "servidor": 108.83
+    },
+    {
+     "n": 9,
+     "status": 200,
+     "ms": 128.7,
+     "bytes": 150,
+     "dns": 5.43,
+     "tcp": 7.29,
+     "tls": 13.43,
+     "servidor": 101.75
+    },
+    {
+     "n": 10,
+     "status": 200,
+     "ms": 147.93,
+     "bytes": 150,
+     "dns": 2.87,
+     "tcp": 5.18,
+     "tls": 13.93,
+     "servidor": 125.48
+    }
+   ],
+   "total": {
+    "n": 10,
+    "min": 117.79,
+    "max": 321.92,
+    "prom": 150.08,
+    "desv": 57.81,
+    "p95": 321.92
+   },
+   "fases": {
+    "dns": 3.87,
+    "tcp": 5.66,
+    "tls": 14.63,
+    "servidor": 125.43
+   },
+   "exitosas": 10,
+   "bytesProm": 150
+  },
+  "conexionReutilizada": {
+   "solicitudes": [
+    {
+     "n": 1,
+     "status": 200,
+     "ms": 132.67,
+     "bytes": 150,
+     "dns": 4.02,
+     "tcp": 3.77,
+     "tls": 14.04,
+     "servidor": 110.31
+    },
+    {
+     "n": 2,
+     "status": 200,
+     "ms": 94.98,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 94.58
+    },
+    {
+     "n": 3,
+     "status": 200,
+     "ms": 106.25,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 105.95
+    },
+    {
+     "n": 4,
+     "status": 200,
+     "ms": 109.12,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 108.83
+    },
+    {
+     "n": 5,
+     "status": 200,
+     "ms": 100.89,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 100.52
+    },
+    {
+     "n": 6,
+     "status": 200,
+     "ms": 107.2,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 106.64
+    },
+    {
+     "n": 7,
+     "status": 200,
+     "ms": 99.23,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 98.94
+    },
+    {
+     "n": 8,
+     "status": 200,
+     "ms": 93.35,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 93.06
+    },
+    {
+     "n": 9,
+     "status": 200,
+     "ms": 98.64,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 98.27
+    },
+    {
+     "n": 10,
+     "status": 200,
+     "ms": 114.55,
+     "bytes": 150,
+     "dns": 0,
+     "tcp": 0,
+     "tls": 0,
+     "servidor": 114.01
+    }
+   ],
+   "total": {
+    "n": 10,
+    "min": 93.35,
+    "max": 132.67,
+    "prom": 105.69,
+    "desv": 10.96,
+    "p95": 132.67
+   },
+   "exitosas": 10
+  },
+  "tamano": {
+   "selectTodo": {
+    "bytesProm": 988,
+    "ms": {
+     "n": 10,
+     "min": 114.42,
+     "max": 385.39,
+     "prom": 156.7,
+     "desv": 77.2,
+     "p95": 385.39
+    }
+   },
+   "selectNecesario": {
+    "bytesProm": 116,
+    "ms": {
+     "n": 10,
+     "min": 119.51,
+     "max": 369.14,
+     "prom": 156.8,
+     "desv": 74.5,
+     "p95": 369.14
+    }
+   }
+  },
+  "ranking": {
+   "ms": {
+    "n": 10,
+    "min": 115.51,
+    "max": 159.68,
+    "prom": 131.09,
+    "desv": 10.91,
+    "p95": 159.68
+   },
+   "servidor": {
+    "n": 10,
+    "min": 96.23,
+    "max": 138.46,
+    "prom": 108.54,
+    "desv": 10.83,
+    "p95": 138.46
+   },
+   "bytesProm": 475,
+   "exitosas": 10
+  }
+ },
+ "endpoints": [
+  {
+   "id": "AUTH-200",
+   "desc": "Login correcto",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 1508.73,
+   "bytes": 1917,
+   "observacion": "La respuesta trae access_token (necesario) y SÍ contiene la contraseña."
+  },
+  {
+   "id": "WEB-401a",
+   "desc": "Leer calificaciones SIN sesión (solo clave publicable)",
+   "esperado": 401,
+   "obtenido": 401,
+   "ms": 675.82,
+   "bytes": 214,
+   "cuerpo": "{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.calificaciones_tecnica TO anon;\",\"message\":\"permission denied for table calificaciones_tecnica\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-401b",
+   "desc": "Token inválido/expirado",
+   "esperado": 401,
+   "obtenido": 401,
+   "ms": 328.17,
+   "bytes": 133,
+   "cuerpo": "{\"code\":\"PGRST301\",\"details\":\"None of the keys was able to decode the JWT\",\"hint\":null,\"message\":\"No suitable key or wrong key type\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "AUTH-400",
+   "desc": "Login con contraseña incorrecta",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 246.29,
+   "bytes": 81,
+   "cuerpo": "{\"code\":400,\"error_code\":\"invalid_credentials\",\"msg\":\"Invalid login credentials\"}",
+   "observacion": "no revela si el correo existe: mensaje genérico",
+   "ok": true
+  },
+  {
+   "id": "WEB-403",
+   "desc": "Con sesión: crear un registro a nombre de OTRO usuario (RLS)",
+   "esperado": 403,
+   "obtenido": 403,
+   "ms": 260.94,
+   "bytes": 121,
+   "cuerpo": "{\"code\":\"42501\",\"details\":null,\"hint\":null,\"message\":\"new row violates row-level security policy for table \\\"sesiones\\\"\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-200",
+   "desc": "Consultar escuadras (lectura)",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 145.71,
+   "bytes": 150,
+   "cuerpo": "[{\"id\":7,\"nombre\":\"prueba\"}, \n {\"id\":8,\"nombre\":\"rrmr\"}, \n {\"id\":9,\"nombre\":\"Otra\"}, \n {\"id\":10,\"nombre\":\"Anuaks\"}, \n {\"id\":11,\"nombre\":\"Rarámuris\"}]",
+   "observacion": "5 escuadras; estructura [\"id\",\"nombre\"]",
+   "ok": true
+  },
+  {
+   "id": "WEB-200b",
+   "desc": "Consultar escuadra por id inexistente",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 142.13,
+   "bytes": 2,
+   "cuerpo": "[]",
+   "observacion": "PostgREST no usa 404 para un filtro sin resultados: devuelve []",
+   "ok": true
+  },
+  {
+   "id": "WEB-406",
+   "desc": "Pedir UN solo registro inexistente (Accept objeto, como .single())",
+   "esperado": 406,
+   "obtenido": 406,
+   "ms": 134.92,
+   "bytes": 131,
+   "cuerpo": "{\"code\":\"PGRST116\",\"details\":\"The result contains 0 rows\",\"hint\":null,\"message\":\"Cannot coerce the result to a single JSON object\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-404",
+   "desc": "Recurso (tabla) inexistente",
+   "esperado": 404,
+   "obtenido": 404,
+   "ms": 137.9,
+   "bytes": 132,
+   "cuerpo": "{\"code\":\"PGRST205\",\"details\":null,\"hint\":null,\"message\":\"Could not find the table 'public.tabla_que_no_existe' in the schema cache\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-201",
+   "desc": "Crear sesión de prueba (escritura)",
+   "esperado": [
+    201,
+    409
+   ],
+   "obtenido": 201,
+   "ms": 137.27,
+   "bytes": 31,
+   "cuerpo": "[{\"id\":4,\"fecha\":\"2099-12-31\"}]",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-409",
+   "desc": "Crear otra sesión con la MISMA fecha (UNIQUE)",
+   "esperado": 409,
+   "obtenido": 409,
+   "ms": 124.59,
+   "bytes": 125,
+   "cuerpo": "{\"code\":\"23505\",\"details\":null,\"hint\":null,\"message\":\"duplicate key value violates unique constraint \\\"sesiones_fecha_key\\\"\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-400a",
+   "desc": "Juego con valor 0 (CHECK valor > 0)",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 150.58,
+   "bytes": 136,
+   "cuerpo": "{\"code\":\"23514\",\"details\":null,\"hint\":null,\"message\":\"new row for relation \\\"juegos\\\" violates check constraint \\\"juegos_valor_check\\\"\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-400b",
+   "desc": "JSON mal formado",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 130.62,
+   "bytes": 80,
+   "cuerpo": "{\"code\":\"PGRST102\",\"details\":null,\"hint\":null,\"message\":\"Empty or invalid json\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-400c",
+   "desc": "Calificación incompleta (NOT NULL)",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 121.91,
+   "bytes": 157,
+   "cuerpo": "{\"code\":\"23502\",\"details\":null,\"hint\":null,\"message\":\"null value in column \\\"utilidad\\\" of relation \\\"calificaciones_tecnica\\\" violates not-null constraint\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-409b",
+   "desc": "Escuadra inexistente (llave foránea)",
+   "esperado": 409,
+   "obtenido": 409,
+   "ms": 136,
+   "bytes": 224,
+   "cuerpo": "{\"code\":\"23503\",\"details\":\"Key is not present in table \\\"escuadras\\\".\",\"hint\":null,\"message\":\"insert or update on table \\\"calificaciones_tecnica\\\" violates foreign key constraint \\\"calificaciones_tecnica_escuadra_id_fkey\\\"\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-201b",
+   "desc": "Crear juego válido",
+   "esperado": 201,
+   "obtenido": 201,
+   "ms": 130.7,
+   "bytes": 94,
+   "cuerpo": "[{\"id\":4,\"nombre\":\"Prueba WB\",\"valor\":15,\"creado_por\":\"7ddd034f-9809-4ae3-bfef-957070da340a\"}]",
+   "observacion": "creado_por = usuario de la sesión: true",
+   "ok": true
+  },
+  {
+   "id": "WEB-200c",
+   "desc": "Actualizar juego",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 140.36,
+   "bytes": 21,
+   "cuerpo": "[{\"id\":4,\"valor\":20}]",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-204",
+   "desc": "Eliminar juego (sin cuerpo de respuesta)",
+   "esperado": 204,
+   "obtenido": 204,
+   "ms": 128.53,
+   "bytes": 0,
+   "cuerpo": "",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "WEB-200d",
+   "desc": "Consultar juego eliminado → lista vacía (persistencia)",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 141.15,
+   "bytes": 2,
+   "cuerpo": "[]",
+   "observacion": "cuerpo []",
+   "ok": true
+  },
+  {
+   "id": "API-200",
+   "desc": "Notificación válida",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 932.16,
+   "bytes": 11,
+   "cuerpo": "{\"ok\":true}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "API-400",
+   "desc": "Notificación sin escuadra",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 333.42,
+   "bytes": 60,
+   "cuerpo": "{\"error\":\"Se requieren escuadra (texto) y puntos (número)\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "API-400b",
+   "desc": "Notificación con puntos como texto",
+   "esperado": 400,
+   "obtenido": 400,
+   "ms": 336.17,
+   "bytes": 60,
+   "cuerpo": "{\"error\":\"Se requieren escuadra (texto) y puntos (número)\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "API-405",
+   "desc": "Método GET no permitido",
+   "esperado": 405,
+   "obtenido": 405,
+   "ms": 353.68,
+   "bytes": 32,
+   "cuerpo": "{\"error\":\"Método no permitido\"}",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "API-204",
+   "desc": "Preflight CORS (OPTIONS)",
+   "esperado": 204,
+   "obtenido": 204,
+   "ms": 385.14,
+   "bytes": 0,
+   "cuerpo": "",
+   "observacion": "",
+   "ok": true
+  },
+  {
+   "id": "API-401?",
+   "desc": "Notificación SIN ninguna credencial (¿debería pedir autenticación?)",
+   "esperado": 401,
+   "obtenido": 200,
+   "ms": 267.66,
+   "bytes": 11,
+   "cuerpo": "{\"ok\":true}",
+   "observacion": "",
+   "ok": false
+  },
+  {
+   "id": "API-buscar",
+   "desc": "Buscador del menú: GET /api/buscar?q=ju",
+   "esperado": 200,
+   "obtenido": 404,
+   "ms": 286.92,
+   "bytes": 79,
+   "cuerpo": "The page could not be found\n\nNOT_FOUND\n\ncle1::mp69f-1794354040547-a026d0b09235\n",
+   "observacion": "",
+   "ok": false
+  },
+  {
+   "id": "SITIO-200",
+   "desc": "Página principal del sitio",
+   "esperado": 200,
+   "obtenido": 200,
+   "ms": 394.75,
+   "bytes": 1104,
+   "cuerpo": "<!doctype html>\n<html lang=\"en\" data-beasties-container=\"\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Puntuaciones</title>\n  <base href=\"/\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n  <link rel=\"manifest\" href=\"m",
+   "observacion": "",
+   "ok": true
+  }
+ ],
+ "transferencia": {
+  "archivoMB": 2,
+  "subidaStorage": [
+   {
+    "n": 1,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 956.38,
+    "mbps": 17.54
+   },
+   {
+    "n": 2,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 1088.11,
+    "mbps": 15.42
+   },
+   {
+    "n": 3,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 787.9,
+    "mbps": 21.29
+   }
+  ],
+  "descargaStorage": [
+   {
+    "n": 1,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 1055.89,
+    "mbps": 15.89
+   },
+   {
+    "n": 2,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 942.13,
+    "mbps": 17.81
+   },
+   {
+    "n": 3,
+    "status": 200,
+    "bytes": 2097152,
+    "ms": 767.58,
+    "mbps": 21.86
+   }
+  ],
+  "descargaSitio": {
+   "archivo": "main-IQJAS3E5.js",
+   "mediciones": [
+    {
+     "n": 1,
+     "status": 200,
+     "bytes": 690476,
+     "ms": 799.75,
+     "mbps": 6.91,
+     "cache": "MISS"
+    },
+    {
+     "n": 2,
+     "status": 200,
+     "bytes": 690476,
+     "ms": 680.06,
+     "mbps": 8.12,
+     "cache": "HIT"
+    },
+    {
+     "n": 3,
+     "status": 200,
+     "bytes": 690476,
+     "ms": 857.02,
+     "mbps": 6.45,
+     "cache": "HIT"
+    }
+   ]
+  },
+  "resumen": {
+   "subidaMbps": 18.08,
+   "descargaMbps": 18.52,
+   "descargaSitioMbps": 7.16,
+   "tiempoDescargaS": 0.92
+  }
+ },
+ "carga": {
+  "lectura": [
+   {
+    "escenario": "lectura ranking_general",
+    "usuarios": 1,
+    "solicitudes": 20,
+    "exitosas": 20,
+    "fallidas": 0,
+    "codigos": {
+     "200": 20
+    },
+    "nMs": 20,
+    "minMs": 97.19,
+    "maxMs": 402.91,
+    "promMs": 123.68,
+    "desvMs": 65.18,
+    "p95Ms": 139.35,
+    "duracionS": 2.48,
+    "solicitudesPorS": 8.07,
+    "mbps": 0.01,
+    "cpuClienteMs": 47,
+    "memoriaClienteMB": 66.59
+   },
+   {
+    "escenario": "lectura ranking_general",
+    "usuarios": 5,
+    "solicitudes": 20,
+    "exitosas": 20,
+    "fallidas": 0,
+    "codigos": {
+     "200": 20
+    },
+    "nMs": 20,
+    "minMs": 94.63,
+    "maxMs": 361.84,
+    "promMs": 172.37,
+    "desvMs": 89.4,
+    "p95Ms": 336.17,
+    "duracionS": 0.74,
+    "solicitudesPorS": 27.03,
+    "mbps": 0.04,
+    "cpuClienteMs": 93,
+    "memoriaClienteMB": 66.7
+   },
+   {
+    "escenario": "lectura ranking_general",
+    "usuarios": 10,
+    "solicitudes": 40,
+    "exitosas": 40,
+    "fallidas": 0,
+    "codigos": {
+     "200": 40
+    },
+    "nMs": 40,
+    "minMs": 95.94,
+    "maxMs": 437.43,
+    "promMs": 206.66,
+    "desvMs": 119.64,
+    "p95Ms": 413.78,
+    "duracionS": 0.88,
+    "solicitudesPorS": 45.22,
+    "mbps": 0.06,
+    "cpuClienteMs": 188,
+    "memoriaClienteMB": 66.79
+   }
+  ],
+  "escritura": [
+   {
+    "escenario": "escritura juegos",
+    "usuarios": 1,
+    "solicitudes": 20,
+    "exitosas": 20,
+    "fallidas": 0,
+    "codigos": {
+     "201": 20
+    },
+    "nMs": 20,
+    "minMs": 93.43,
+    "maxMs": 121.93,
+    "promMs": 99.47,
+    "desvMs": 6.28,
+    "p95Ms": 104.93,
+    "duracionS": 1.99,
+    "solicitudesPorS": 10.03,
+    "mbps": 0,
+    "cpuClienteMs": 47,
+    "memoriaClienteMB": 67.41,
+    "filasEnBase": 20
+   },
+   {
+    "escenario": "escritura juegos",
+    "usuarios": 5,
+    "solicitudes": 20,
+    "exitosas": 20,
+    "fallidas": 0,
+    "codigos": {
+     "201": 20
+    },
+    "nMs": 20,
+    "minMs": 94.21,
+    "maxMs": 164.66,
+    "promMs": 112.43,
+    "desvMs": 23.88,
+    "p95Ms": 159.94,
+    "duracionS": 0.47,
+    "solicitudesPorS": 42.56,
+    "mbps": 0,
+    "cpuClienteMs": 79,
+    "memoriaClienteMB": 68.46,
+    "filasEnBase": 20
+   },
+   {
+    "escenario": "escritura juegos",
+    "usuarios": 10,
+    "solicitudes": 40,
+    "exitosas": 40,
+    "fallidas": 0,
+    "codigos": {
+     "201": 40
+    },
+    "nMs": 40,
+    "minMs": 91.96,
+    "maxMs": 631.05,
+    "promMs": 188.6,
+    "desvMs": 138.84,
+    "p95Ms": 530.88,
+    "duracionS": 0.9,
+    "solicitudesPorS": 44.58,
+    "mbps": 0,
+    "cpuClienteMs": 234,
+    "memoriaClienteMB": 70.23,
+    "filasEnBase": 40
+   }
+  ]
+ },
+ "interrupcion": {},
+ "notas": [
+  "Limpieza: sesión de prueba 2099-12-31 borrada (HTTP 204); sus juegos se borran en cascada."
+ ],
+ "sesionPrueba": 4
+}
