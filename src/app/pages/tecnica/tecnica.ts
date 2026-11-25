@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FutterComponent } from "../../components/futter/futter";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { TecnicaRepositorio, CalificacionBD, Criterios, FilaParaGuardar } from '../../services/tecnica/tecnica-repositorio';
+import { TecnicaRepositorio, CalificacionBD, Criterios, FilaParaGuardar, FotoHistorial } from '../../services/tecnica/tecnica-repositorio';
 import { hoyLocal } from '../../services/datos/datos';
 import { mensajeError } from '../../services/supabase/supabase';
 
@@ -60,6 +60,12 @@ export class Tecnica implements OnInit, OnDestroy {
   private fotosPendientes: Record<string, string> = {};
   errorFoto = signal('');
   errorNotificacion = signal('');
+
+  // Historial de fotos por escuadra (evolución semana con semana)
+  historialEscuadra = '';
+  historial = signal<FotoHistorial[] | null>(null);
+  cargandoHistorial = signal(false);
+  errorHistorial = signal('');
 
   constructor(private http: HttpClient) {
     this.escuadras.forEach(e => (this.calificaciones[e] = vacia()));
@@ -278,6 +284,26 @@ export class Tecnica implements OnInit, OnDestroy {
           : 'No se pudo abrir la cámara.'
       );
     }
+  }
+
+  /** Muestra las fotos de una escuadra en sesiones anteriores, de la más reciente a la más antigua. */
+  async verHistorial(escuadra: string): Promise<void> {
+    this.historialEscuadra = escuadra;
+    this.errorHistorial.set('');
+    this.cargandoHistorial.set(true);
+    try {
+      this.historial.set(await this.repo.historialFotos(escuadra));
+    } catch (e) {
+      this.historial.set(null);
+      this.errorHistorial.set(mensajeError(e));
+    } finally {
+      this.cargandoHistorial.set(false);
+    }
+  }
+
+  cerrarHistorial(): void {
+    this.historial.set(null);
+    this.historialEscuadra = '';
   }
 
   quitarFoto(escuadra: string): void {

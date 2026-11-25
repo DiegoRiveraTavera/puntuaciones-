@@ -36,13 +36,23 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
+## Pruebas automatizadas e integración continua
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+[![CI](https://github.com/DiegoRiveraTavera/puntuaciones-/actions/workflows/ci.yml/badge.svg)](https://github.com/DiegoRiveraTavera/puntuaciones-/actions/workflows/ci.yml)
 
-```bash
-ng test
-```
+Cada push y cada pull request ejecutan el flujo [`.github/workflows/ci.yml`](.github/workflows/ci.yml) en GitHub Actions.
+Si una prueba falla, la ejecución queda en rojo.
+
+| Comando | Qué prueba | Herramienta |
+| --- | --- | --- |
+| `npm run test:ci` | Unitarias e integración de la app (validación de juegos, guardado, reintentos, inicio de sesión, puntuación) | Karma + Jasmine en Chrome sin interfaz |
+| `npm run test:bd` | Persistencia: la función `guardar_juego` sobre el esquema real de Supabase | `node:test` + PostgreSQL embebido (PGlite) |
+| `npm run build` | Que la app compile para producción | Angular CLI |
+
+Antes de `npm run test:bd` instala sus dependencias una vez con `cd whitebox/bd && npm ci`.
+El resumen de la última corrida queda en `reportes/ci/resumen-pruebas.json` y la cobertura en `coverage/ci/index.html`.
+
+> `ng test` a secas no funciona: los `*.spec.ts` que generó Angular CLI no compilan. Usa los scripts de arriba.
 
 ## Running end-to-end tests
 

@@ -1,0 +1,96 @@
+{
+ "version": "antes",
+ "escenarios": [
+  {
+   "codigo": "RES-01",
+   "escenario": "Pérdida de Internet durante una consulta",
+   "ms": 7458,
+   "exito": false,
+   "mensaje": "⚠️ Sin conexión con el servidor. No se guardó; revisa tu internet e inténtalo de nuevo.",
+   "intentosGET": 4,
+   "appEstable": true
+  },
+  {
+   "codigo": "RES-02",
+   "escenario": "Pérdida de Internet durante una escritura",
+   "ms": 7391,
+   "exito": false,
+   "mensaje": "⚠️ Sin conexión con el servidor. No se guardó; revisa tu internet e inténtalo de nuevo.",
+   "confirmoFalsamente": false,
+   "juegosEnBase": 0,
+   "datosEnPantalla": 1
+  },
+  {
+   "codigo": "RES-06",
+   "escenario": "Recuperación de conexión (guardar de nuevo)",
+   "ms": 1341,
+   "exito": true,
+   "mensaje": "",
+   "juegosEnBase": 1,
+   "duplicados": 0
+  },
+  {
+   "codigo": "RES-03a",
+   "escenario": "Servidor sin respuesta al guardar",
+   "ms": null,
+   "exito": false,
+   "mensaje": "sin respuesta después de 45 s (botón: «Guardando…»)",
+   "avisoDeReintentoMs": null
+  },
+  {
+   "codigo": "RES-03b",
+   "escenario": "Servidor sin respuesta al consultar (Lugares)",
+   "ms": null,
+   "exito": false,
+   "mensaje": "sin respuesta después de 45 s (botón: «»)"
+  },
+  {
+   "codigo": "RES-04",
+   "escenario": "Respuesta HTTP 500",
+   "ms": 228,
+   "exito": false,
+   "mensaje": "⚠️ Ocurrió un error al comunicarse con el servidor.",
+   "confirmoFalsamente": false,
+   "sigueFuncionando": true
+  },
+  {
+   "codigo": "RES-05a",
+   "escenario": "Respuesta HTTP 401",
+   "ms": 229,
+   "exito": false,
+   "mensaje": "⚠️ Tu sesión expiró. Vuelve a iniciar sesión."
+  },
+  {
+   "codigo": "RES-05b",
+   "escenario": "Respuesta HTTP 403",
+   "ms": 234,
+   "exito": false,
+   "mensaje": "⚠️ No tienes permiso para hacer esta operación."
+  },
+  {
+   "codigo": "RES-07",
+   "escenario": "Reintento de una escritura cuya respuesta se perdió",
+   "primerIntento": {
+    "ms": 838,
+    "exito": false,
+    "mensaje": "⚠️ Sin conexión con el servidor. No se guardó; revisa tu internet e inténtalo de nuevo."
+   },
+   "reintentoDelUsuario": {
+    "ms": 1335,
+    "exito": true,
+    "mensaje": ""
+   },
+   "copiasEnBase": 2,
+   "pestañasTrasRecargar": 2
+  },
+  {
+   "codigo": "RES-08",
+   "escenario": "Respuesta tardía (3 s) con 3 clics en Guardar",
+   "ms": 28033,
+   "exito": true,
+   "mensaje": "",
+   "solicitudesDeCreacion": 1,
+   "copiasEnBase": 1
+  }
+ ]
+}

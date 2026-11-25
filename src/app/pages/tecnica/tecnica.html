@@ -86,9 +86,29 @@
             [attr.aria-label]="'Quitar foto de ' + escuadra"
             (click)="quitarFoto(escuadra)">✕</button>
         </div>
+        <button type="button" class="btn-historial" (click)="verHistorial(escuadra)">🗂️ Ver historial</button>
       </div>
     </div>
     <p class="msg-error-foto" *ngIf="errorFoto()">{{ errorFoto() }}</p>
+
+    <!-- Historial de fotos de una escuadra: su evolución semana con semana -->
+    <section class="historial" *ngIf="historialEscuadra" aria-live="polite">
+      <div class="historial-encabezado">
+        <h3 class="fotos-titulo">Historial de {{ historialEscuadra }}</h3>
+        <button type="button" class="btn-foto-quitar" aria-label="Cerrar historial" (click)="cerrarHistorial()">✕</button>
+      </div>
+      <p class="fotos-ayuda" *ngIf="cargandoHistorial()">Cargando fotos…</p>
+      <p class="msg-error-foto" *ngIf="errorHistorial()" role="alert">⚠️ {{ errorHistorial() }}</p>
+      <p class="fotos-ayuda" *ngIf="!cargandoHistorial() && historial()?.length === 0">
+        Todavía no hay fotos guardadas de {{ historialEscuadra }}.
+      </p>
+      <div class="historial-grid" *ngIf="historial()?.length">
+        <figure class="historial-foto" *ngFor="let f of historial()">
+          <img [src]="f.url" [alt]="'Técnica de ' + historialEscuadra + ' el ' + f.fecha" loading="lazy" />
+          <figcaption>{{ f.fecha }}</figcaption>
+        </figure>
+      </div>
+    </section>
 
     <div class="acciones">
       <button class="btn-guardar" (click)="guardar()" [disabled]="guardando()">

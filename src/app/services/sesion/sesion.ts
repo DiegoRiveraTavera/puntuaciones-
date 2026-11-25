@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { supabase } from '../supabase/supabase';
+import { esErrorDeRed, supabase } from '../supabase/supabase';
 
 /**
  * Control de sesión con Supabase Authentication (Práctica 10).
@@ -35,7 +35,14 @@ export async function iniciarSesion(correo: string, password: string): Promise<R
   }
 
   // La cuenta existe, pero ¿es de jefatura y está activa? (lo decide la regla RLS)
-  const { data: perfil } = await sb.from('perfiles').select('id').eq('id', data.user.id).maybeSingle();
+  const { data: perfil, error: errorPerfil } = await sb.from('perfiles').select('id').eq('id', data.user.id).maybeSingle();
+  // DEF-03 (Práctica 11): un error de red al consultar el perfil NO es falta de permisos
+  if (errorPerfil) {
+    await sb.auth.signOut({ scope: 'local' });
+    return { ok: false, error: esErrorDeRed(errorPerfil)
+      ? 'No se pudo conectar con el servidor. Revisa tu conexión.'
+      : 'No se pudo verificar tu cuenta. Inténtalo de nuevo.' };
+  }
   if (!perfil) {
     await sb.auth.signOut();
     return { ok: false, error: 'Tu cuenta no tiene acceso a Puntuaciones.' };

@@ -1,0 +1,326 @@
+{
+ "modo": "despues",
+ "entorno": {
+  "fecha": "2026-11-13T23:52:05.241Z",
+  "equipo": "DESKTOP-65I8KK0",
+  "so": "Windows_NT 10.0.19045",
+  "cpu": "Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz × 4",
+  "node": "v22.12.0",
+  "conexion": "(no indicada)",
+  "commit": "c28eea3",
+  "servidor": "berxzmxipyapcczfwynl.supabase.co"
+ },
+ "operacionCritica": {
+  "descripcion": "guardar 1 juego (2 roles × 2 enfrentamientos, con ganador)",
+  "ms": [
+   119.3,
+   112.4,
+   124.4,
+   153.7,
+   129.3,
+   146.9,
+   114.8,
+   123,
+   126.4,
+   110.1
+  ],
+  "prom": 126,
+  "p90": 146.9,
+  "p95": 153.7,
+  "max": 153.7,
+  "min": 110.1,
+  "peticionesPorOperacion": 1
+ },
+ "lectura": [
+  {
+   "usuarios": 1,
+   "operaciones": 40,
+   "exitosas": 40,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 40,
+   "opsPorS": 7.9,
+   "rps": 7.9,
+   "promMs": 126.9,
+   "p90Ms": 145.1,
+   "p95Ms": 154.8,
+   "maxMs": 448.9,
+   "minMs": 100.1,
+   "codigos": {
+    "200": 40
+   },
+   "duracionS": 5.1,
+   "cpuClienteMs": 156,
+   "memoriaClienteMB": 40.9
+  },
+  {
+   "usuarios": 5,
+   "operaciones": 40,
+   "exitosas": 40,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 40,
+   "opsPorS": 35.8,
+   "rps": 35.8,
+   "promMs": 132.6,
+   "p90Ms": 158.4,
+   "p95Ms": 257.9,
+   "maxMs": 284.1,
+   "minMs": 97.2,
+   "codigos": {
+    "200": 40
+   },
+   "duracionS": 1.1,
+   "cpuClienteMs": 140,
+   "memoriaClienteMB": 45.6
+  },
+  {
+   "usuarios": 10,
+   "operaciones": 40,
+   "exitosas": 40,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 40,
+   "opsPorS": 46.8,
+   "rps": 46.8,
+   "promMs": 136.4,
+   "p90Ms": 156.2,
+   "p95Ms": 167.1,
+   "maxMs": 688.6,
+   "minMs": 99.8,
+   "codigos": {
+    "200": 40
+   },
+   "duracionS": 0.9,
+   "cpuClienteMs": 79,
+   "memoriaClienteMB": 46.5
+  },
+  {
+   "usuarios": 20,
+   "operaciones": 80,
+   "exitosas": 80,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 80,
+   "opsPorS": 103.3,
+   "rps": 103.3,
+   "promMs": 148.4,
+   "p90Ms": 208.8,
+   "p95Ms": 260.3,
+   "maxMs": 336.1,
+   "minMs": 99.8,
+   "codigos": {
+    "200": 80
+   },
+   "duracionS": 0.8,
+   "cpuClienteMs": 218,
+   "memoriaClienteMB": 48
+  },
+  {
+   "usuarios": 50,
+   "operaciones": 200,
+   "exitosas": 200,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 200,
+   "opsPorS": 224,
+   "rps": 224,
+   "promMs": 188.4,
+   "p90Ms": 287.2,
+   "p95Ms": 300,
+   "maxMs": 486.7,
+   "minMs": 102.1,
+   "codigos": {
+    "200": 200
+   },
+   "duracionS": 0.9,
+   "cpuClienteMs": 407,
+   "memoriaClienteMB": 53.6
+  }
+ ],
+ "escritura": [
+  {
+   "usuarios": 1,
+   "operaciones": 20,
+   "exitosas": 20,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 20,
+   "opsPorS": 8.8,
+   "rps": 8.8,
+   "promMs": 113.5,
+   "p90Ms": 122.6,
+   "p95Ms": 127.3,
+   "maxMs": 128.4,
+   "minMs": 105.6,
+   "codigos": {
+    "200": 20
+   },
+   "duracionS": 2.3,
+   "cpuClienteMs": 32,
+   "memoriaClienteMB": 53.4,
+   "integridad": {
+    "esperado": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    },
+    "obtenido": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    }
+   }
+  },
+  {
+   "usuarios": 5,
+   "operaciones": 20,
+   "exitosas": 20,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 20,
+   "opsPorS": 39.4,
+   "rps": 39.4,
+   "promMs": 122.4,
+   "p90Ms": 131.3,
+   "p95Ms": 134.3,
+   "maxMs": 135.9,
+   "minMs": 109.6,
+   "codigos": {
+    "200": 20
+   },
+   "duracionS": 0.5,
+   "cpuClienteMs": 47,
+   "memoriaClienteMB": 53.9,
+   "integridad": {
+    "esperado": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    },
+    "obtenido": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    }
+   }
+  },
+  {
+   "usuarios": 10,
+   "operaciones": 20,
+   "exitosas": 20,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 20,
+   "opsPorS": 60.6,
+   "rps": 60.6,
+   "promMs": 149.3,
+   "p90Ms": 165.8,
+   "p95Ms": 169.4,
+   "maxMs": 169.9,
+   "minMs": 104.6,
+   "codigos": {
+    "200": 20
+   },
+   "duracionS": 0.3,
+   "cpuClienteMs": 31,
+   "memoriaClienteMB": 54.7,
+   "integridad": {
+    "esperado": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    },
+    "obtenido": {
+     "juegos": 20,
+     "enfrentamientos": 80,
+     "participaciones": 160,
+     "conGanador": 80
+    }
+   }
+  },
+  {
+   "usuarios": 20,
+   "operaciones": 40,
+   "exitosas": 40,
+   "fallidas": 0,
+   "pctErrores": 0,
+   "peticionesHTTP": 40,
+   "opsPorS": 98.9,
+   "rps": 98.9,
+   "promMs": 178.4,
+   "p90Ms": 232.4,
+   "p95Ms": 237.5,
+   "maxMs": 250.1,
+   "minMs": 136.6,
+   "codigos": {
+    "200": 40
+   },
+   "duracionS": 0.4,
+   "cpuClienteMs": 78,
+   "memoriaClienteMB": 55.5,
+   "integridad": {
+    "esperado": {
+     "juegos": 40,
+     "enfrentamientos": 160,
+     "participaciones": 320,
+     "conGanador": 160
+    },
+    "obtenido": {
+     "juegos": 40,
+     "enfrentamientos": 160,
+     "participaciones": 320,
+     "conGanador": 160
+    }
+   }
+  }
+ ],
+ "concurrenciaBD": {
+  "mismoJuego": {
+   "solicitudes": 10,
+   "exitosas": 10,
+   "copiasEnBase": 1,
+   "enfrentamientos": 4,
+   "esperado": "una sola copia con 4 enfrentamientos"
+  },
+  "calificacion": {
+   "conVersion": {
+    "solicitudes": 10,
+    "aplicadas": 1,
+    "rechazadasPorConflicto": 9,
+    "versionFinal": 2,
+    "esperado": "1 aplicada, 9 conflictos, versión 2"
+   },
+   "sinVersion": {
+    "solicitudes": 10,
+    "respuestasOK": 10,
+    "versionFinal": 12,
+    "esperado": "versión = 2 + 10 (cada escritura se serializa, ninguna se pierde)"
+   }
+  }
+ },
+ "integridad": {
+  "operacionCritica": {
+   "esperado": {
+    "juegos": 10,
+    "enfrentamientos": 40,
+    "participaciones": 80,
+    "conGanador": 40
+   },
+   "obtenido": {
+    "juegos": 10,
+    "enfrentamientos": 40,
+    "participaciones": 80,
+    "conGanador": 40
+   }
+  }
+ },
+ "notas": [
+  "Limpieza: sesión de prueba 2099-12-31 borrada (HTTP 204)."
+ ]
+}

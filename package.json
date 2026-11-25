@@ -9,6 +9,9 @@
     "test": "ng test",
     "test:piramide": "ng test --watch=false --ts-config=tsconfig.piramide.json --include=src/**/*.logic.spec.ts --include=src/**/*.int.spec.ts --browsers=ChromeHeadless",
     "serve:ssr:puntuaciones": "node dist/puntuaciones/server/server.mjs",
+    "test:whitebox": "ng test --watch=false --code-coverage --karma-config=karma.whitebox.cjs --ts-config=tsconfig.whitebox.json --include=src/app/whitebox/**/*.wb.spec.ts",
+    "test:ci": "ng test --watch=false --code-coverage --karma-config=karma.ci.cjs --ts-config=tsconfig.ci.json --include=src/app/automatizacion/**/*.spec.ts --include=src/app/whitebox/**/*.wb.spec.ts --include=src/**/*.logic.spec.ts --include=src/**/*.int.spec.ts",
+    "test:bd": "npm --prefix whitebox/bd test",
     "build:mobile": "ng run puntuaciones:build-mobile",
     "cap:sync": "npm run build:mobile && npx cap sync android"
   },
@@ -38,6 +41,7 @@
     "@capacitor/android": "^8.5.3",
     "@capacitor/camera": "^8.2.5",
     "@capacitor/core": "^8.5.3",
+    "@capacitor/geolocation": "^8.2.5",
     "@elastic/elasticsearch": "^8.19.2",
     "@supabase/supabase-js": "^2.118.0",
     "dotenv": "^17.4.2",
