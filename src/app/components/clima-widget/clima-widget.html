@@ -1,0 +1,48 @@
+<section class="clima" aria-labelledby="clima-titulo">
+  <div class="clima-encabezado">
+    <h3 id="clima-titulo">Clima para la actividad</h3>
+    <span class="clima-lugar">📍 {{ lugar().nombre }}</span>
+  </div>
+
+  @if (cargando() && !clima()) {
+    <p class="clima-estado">Consultando el clima…</p>
+  }
+
+  @if (error()) {
+    <p class="clima-error" role="alert">⚠️ {{ error() }}</p>
+  }
+
+  @if (clima(); as c) {
+    <div class="clima-datos">
+      <span class="clima-icono" aria-hidden="true">{{ c.icono }}</span>
+      <div>
+        <p class="clima-temp">{{ c.temperatura | number: '1.0-0' }} °C</p>
+        <p class="clima-condicion">{{ c.condicion }} · sensación {{ c.sensacion | number: '1.0-0' }} °C</p>
+      </div>
+    </div>
+    <ul class="clima-detalle">
+      <li>💧 Humedad {{ c.humedad }} %</li>
+      <li>🌬️ Viento {{ c.viento | number: '1.0-0' }} km/h</li>
+      <li>☔ Lluvia {{ c.precipitacion }} mm</li>
+    </ul>
+
+    @if (recomendacion(); as r) {
+      <div class="clima-recomendacion" [class.techo]="r.lugar === 'bajo techo'" role="status">
+        <strong>{{ r.lugar === 'aire libre' ? '🌳 Al aire libre' : '🏠 Mejor bajo techo' }}</strong>
+        <span>{{ r.motivo }}</span>
+      </div>
+    }
+    <p class="clima-hora">Actualizado a las {{ hora() }} · datos de Open-Meteo</p>
+  }
+
+  <div class="clima-botones">
+    <button type="button" class="btn-clima" (click)="actualizar()" [disabled]="cargando()">
+      {{ cargando() ? 'Consultando…' : '↻ Actualizar' }}
+    </button>
+    @if (lugar().nombre === 'Tu ubicación') {
+      <button type="button" class="btn-clima secundario" (click)="usarPuntoDeReunion()" [disabled]="cargando()">Ver punto de reunión</button>
+    } @else {
+      <button type="button" class="btn-clima secundario" (click)="usarMiUbicacion()" [disabled]="cargando()">📡 Usar mi ubicación</button>
+    }
+  </div>
+</section>

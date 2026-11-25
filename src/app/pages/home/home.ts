@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { WearableWidgetComponent } from '../../components/wearable-widget/wearable-widget';
 import { FutterComponent } from "../../components/futter/futter";
+import { ClimaWidgetComponent } from '../../components/clima-widget/clima-widget';
 import { escuadrasDeFecha, guardarEscuadrasDeFecha, hoyLocal } from '../../services/datos/datos';
 import { mensajeError } from '../../services/supabase/supabase';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, FormsModule, CommonModule, WearableWidgetComponent, FutterComponent],
+  imports: [NavbarComponent, FormsModule, CommonModule, WearableWidgetComponent, FutterComponent, ClimaWidgetComponent],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

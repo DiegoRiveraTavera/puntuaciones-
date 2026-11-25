@@ -41,6 +41,7 @@
     "@capacitor/android": "^8.5.3",
     "@capacitor/camera": "^8.2.5",
     "@capacitor/core": "^8.5.3",
+    "@capacitor/geolocation": "^8.2.5",
     "@elastic/elasticsearch": "^8.19.2",
     "@supabase/supabase-js": "^2.118.0",
     "dotenv": "^17.4.2",

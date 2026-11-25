@@ -1,0 +1,56 @@
+.clima {
+  background: #fff;
+  border: 1px solid var(--gris-claro);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.clima-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 12px;
+}
+.clima-encabezado h3 { margin: 0; color: var(--negro); }
+.clima-lugar { color: var(--gris); font-size: 0.85rem; }
+.clima-datos { display: flex; align-items: center; gap: 14px; }
+.clima-icono { font-size: 2.6rem; line-height: 1; }
+.clima-temp { margin: 0; font-size: 1.8rem; font-weight: 700; color: var(--negro); }
+.clima-condicion { margin: 2px 0 0; color: var(--gris); }
+.clima-detalle {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 0;
+  margin: 12px 0;
+  color: var(--negro-suave);
+  font-size: 0.9rem;
+}
+.clima-recomendacion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--turquesa-claro);
+  color: var(--turquesa-oscuro);
+}
+.clima-recomendacion.techo { background: #fff4e5; color: #9a4b00; }
+.clima-hora { margin: 8px 0 0; font-size: 0.75rem; color: var(--gris); }
+.clima-estado { color: var(--gris); }
+.clima-error { color: #b42318; margin: 0 0 8px; }
+.clima-botones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.btn-clima {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--turquesa);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-clima.secundario { background: transparent; color: var(--turquesa-oscuro); border: 1px solid var(--turquesa); }
+.btn-clima:disabled { opacity: 0.6; cursor: default; }

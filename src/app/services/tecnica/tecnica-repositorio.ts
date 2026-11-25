@@ -40,6 +40,12 @@ export interface ResultadoGuardado {
   conflictos: string[];
 }
 
+/** Una foto del historial de una escuadra. */
+export interface FotoHistorial {
+  fecha: string;   // YYYY-MM-DD de la sesión
+  url: string;     // URL firmada (válida 1 hora)
+}
+
 const COLUMNAS = 'id, escuadra_id, version, fuerza, utilidad, firmeza, estabilidad, originalidad';
 
 /**
@@ -114,6 +120,41 @@ export class TecnicaRepositorio {
       }
     }
     return resultado;
+  }
+
+  /**
+   * Historial visual de una escuadra: su foto de técnica de cada sesión, de la más reciente
+   * a la más antigua (una por fecha), para ver su evolución semana con semana.
+   */
+  async historialFotos(escuadra: string, limite = 12): Promise<FotoHistorial[]> {
+    const sb = supabase();
+    const nombre = escuadra.trim().toUpperCase();
+    const encontrada = (await listarEscuadras()).find(e => e.nombre.toUpperCase() === nombre);
+    if (!encontrada) return [];
+
+    const { data, error } = await sb
+      .from('fotografias')
+      .select('ruta_archivo, creado_en, sesiones(fecha)')
+      .eq('escuadra_id', encontrada.id)
+      .order('creado_en', { ascending: false })
+      .limit(limite * 3);
+    if (error) throw error;
+
+    // Una foto por fecha (la última que se tomó ese día)
+    const porFecha = new Map<string, string>();
+    for (const fila of (data ?? []) as unknown as { ruta_archivo: string; creado_en: string; sesiones: { fecha: string } | null }[]) {
+      const fecha = fila.sesiones?.fecha ?? fila.creado_en.slice(0, 10);
+      if (!porFecha.has(fecha)) porFecha.set(fecha, fila.ruta_archivo);
+    }
+    const elegidas = [...porFecha.entries()].sort(([a], [b]) => b.localeCompare(a)).slice(0, limite);
+    if (elegidas.length === 0) return [];
+
+    const { data: firmadas, error: errFirma } = await sb.storage
+      .from(BUCKET_FOTOS).createSignedUrls(elegidas.map(([, ruta]) => ruta), 3600);
+    if (errFirma) throw errFirma;
+    return elegidas
+      .map(([fecha, ruta]) => ({ fecha, url: firmadas?.find(x => x.path === ruta)?.signedUrl ?? '' }))
+      .filter(f => f.url);
   }
 
   /** Sube la foto a Storage y la registra en la tabla fotografias. Devuelve una URL para mostrarla. */
