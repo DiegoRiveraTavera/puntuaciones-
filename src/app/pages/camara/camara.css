@@ -26,21 +26,6 @@ button:hover {
   margin-top: 20px;
 }
 
-.correcto {
-  color: #188038;
-}
-
-.error {
-  color: #c5221f;
-}
-
-.foto {
-  display: block;
-  max-width: 100%;
-  margin: 16px auto 0;
-  border-radius: 10px;
-}
-
 .enlace {
   padding: 10px;
   border-radius: 8px;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
+// Pantalla «Sesion»: genera el enlace de sesión de un solo uso (la cámara se usa en Técnica)
 // Dirección base de los enlaces de sesión
 const ENLACE_BASE = 'https://puntuaciones.vercel.app/sesion/';
 @Component({
@@ -12,51 +12,9 @@ const ENLACE_BASE = 'https://puntuaciones.vercel.app/sesion/';
   styleUrl: './camara.css'
 })
 export class Camara {
-  mensaje = 'Pulsa el botón para solicitar permiso.';
-  estado = '';
-  foto = '';
-
   // Enlace de sesión (se genera uno nuevo cada vez que se entra a la página)
   enlace = this.generarEnlace();
   avisoEnlace = '';
-
-  async solicitarPermiso(): Promise<void> {
-    try {
-      const permisos = await Camera.requestPermissions({
-        permissions: ['camera']
-      });
-
-      if (permisos.camera === 'granted') {
-        this.estado = 'correcto';
-        this.mensaje = '¡Permiso de cámara concedido correctamente!';
-        await this.abrirCamara();
-      } else {
-        this.estado = 'error';
-        this.mensaje = 'No se ha concedido el permiso de cámara.';
-      }
-    } catch (error) {
-      console.error('Error al solicitar permiso de cámara:', error);
-      this.estado = 'error';
-      this.mensaje =
-        'No se pudo solicitar el permiso. Revisa la configuración de Android.';
-    }
-  }
-
-  // Abre la cámara del dispositivo y guarda la foto tomada
-  async abrirCamara(): Promise<void> {
-    try {
-      const imagen = await Camera.getPhoto({
-        source: CameraSource.Camera,
-        resultType: CameraResultType.DataUrl,
-        quality: 80
-      });
-      this.foto = imagen.dataUrl ?? '';
-      this.mensaje = 'Foto tomada correctamente.';
-    } catch (error) {
-      // El usuario cerró la cámara sin tomar la foto
-      this.mensaje = 'No se tomó ninguna foto.';
-    }
-  }
 
   // Crea un enlace con código aleatorio, tipo "abc-defg-hij"
   generarEnlace(): string {
